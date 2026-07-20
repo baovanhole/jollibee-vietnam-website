@@ -1,0 +1,22 @@
+# ── File hệ điều hành ────────────────────────────────
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+$RECYCLE.BIN/
+
+# ── Editor / IDE ─────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*~
+
+# ── File tạm khi làm việc ────────────────────────────
+__*.html
+*.log
+*.tmp
+
+# ── File báo cáo (nộp riêng qua trang nộp bài) ───────
+*.docx
+*.pptx
+*.pdf

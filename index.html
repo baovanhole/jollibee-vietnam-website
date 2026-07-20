@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jollibee Vietnam – Trang Chủ</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- CSS riêng -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Navbar (chèn qua components.js) -->
+<div id="navbar"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     HERO BANNER – Bootstrap Carousel component
+     (dựa theo wireframe: Rectangle 3 + text banner + 3 dots)
+     ══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+
+    <!-- Chỉ báo slide (thay cho .hero-dots tĩnh trước đây) -->
+    <div class="carousel-indicators hero-dots">
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0"
+              class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"
+              aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"
+              aria-label="Slide 3"></button>
+    </div>
+
+    <div class="carousel-inner">
+
+      <!-- Slide 1: Gà rán -->
+      <div class="carousel-item active">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+              <p class="hero-eyebrow">🔥 Ưu đãi hôm nay</p>
+              <h1>Món Ngon<br>Deal Hời<br>Tại <span style="color:var(--yellow)">Jollibee!</span></h1>
+              <p class="subtitle">
+                Gà rán giòn tan, Mì Ý thơm ngon, Burger đặc biệt —
+                Đặt hàng ngay, giao tận nơi trong 30 phút!
+              </p>
+              <div class="d-flex gap-3 flex-wrap">
+                <a href="thucdon.html" class="btn btn-yellow btn-lg">Xem thực đơn 🍽</a>
+                <a href="tel:19001533" class="btn btn-outline-light btn-lg">📞 1900 1533</a>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="hero-img-placeholder">
+                <!-- ẢNH: img/hero/hero-1.png · 900×700 · gà rán tách nền -->
+                <div class="img-slot">
+                  <img src="img/hero/hero-1.png" alt="Combo Chickenjoy">
+                  <span class="img-slot__hint"><span class="ph-icon">🍗</span>
+                    <b>img/hero/hero-1.png</b><span class="ph-size">900×700 · PNG tách nền</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2: Mì Ý sốt cay -->
+      <div class="carousel-item">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+              <p class="hero-eyebrow">🆕 Món mới ra mắt</p>
+              <h1>Mì Ý<br>Sốt Cay<br><span style="color:var(--yellow)">Chỉ 40.000đ</span></h1>
+              <p class="subtitle">
+                Spaghetti sốt cay đậm đà kiểu Jollibee —
+                vị mới lạ, ăn là ghiền!
+              </p>
+              <div class="d-flex gap-3 flex-wrap">
+                <a href="thucdon.html?cat=mi" class="btn btn-yellow btn-lg">Đặt ngay 🍝</a>
+                <a href="khuyenmai.html" class="btn btn-outline-light btn-lg">Xem khuyến mãi</a>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="hero-img-placeholder">
+                <!-- ẢNH: img/hero/hero-2.png · 900×700 · mì Ý tách nền -->
+                <div class="img-slot">
+                  <img src="img/hero/hero-2.png" alt="Mì Ý sốt cay">
+                  <span class="img-slot__hint"><span class="ph-icon">🍝</span>
+                    <b>img/hero/hero-2.png</b><span class="ph-size">900×700 · PNG tách nền</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Combo gia đình -->
+      <div class="carousel-item">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+              <p class="hero-eyebrow">👨‍👩‍👧‍👦 Combo gia đình</p>
+              <h1>8 Miếng Gà<br>Cả Nhà Vui<br><span style="color:var(--yellow)">189.000đ</span></h1>
+              <p class="subtitle">
+                Combo 8 miếng Chickenjoy — tiết kiệm hơn mua lẻ,
+                miễn phí giao hàng!
+              </p>
+              <div class="d-flex gap-3 flex-wrap">
+                <a href="thucdon.html?cat=ga" class="btn btn-yellow btn-lg">Đặt combo 🍗</a>
+                <a href="tel:19001533" class="btn btn-outline-light btn-lg">📞 1900 1533</a>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="hero-img-placeholder">
+                <!-- ẢNH: img/hero/hero-3.png · 900×700 · combo gia đình tách nền -->
+                <div class="img-slot">
+                  <img src="img/hero/hero-3.png" alt="Combo gia đình 8 miếng">
+                  <span class="img-slot__hint"><span class="ph-icon">🍱</span>
+                    <b>img/hero/hero-3.png</b><span class="ph-size">900×700 · PNG tách nền</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Nút chuyển slide -->
+    <button class="carousel-control-prev" type="button"
+            data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Trước</span>
+    </button>
+    <button class="carousel-control-next" type="button"
+            data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Sau</span>
+    </button>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     CHỌN HÌNH THỨC NHẬN HÀNG + ĐỊA CHỈ
+     (DESIGN.md §1.2 – hỏi "giao hay lấy?" ngay từ trang chủ,
+      vì phí ship & món khả dụng phụ thuộc cửa hàng gần nhất)
+     ══════════════════════════════════════════════════════════ -->
+<section class="order-bar">
+  <div class="container">
+
+    <!-- Cặp nút chuyển đổi -->
+    <div class="text-center mb-3">
+      <div class="mode-switch" role="group" aria-label="Hình thức nhận hàng">
+        <button type="button" class="mode-btn active" data-mode="delivery">
+          🛵 Giao hàng tận nơi
+        </button>
+        <button type="button" class="mode-btn" data-mode="pickup">
+          🏪 Đặt đến lấy
+        </button>
+      </div>
+    </div>
+
+    <!-- Ô nhập địa chỉ / tìm cửa hàng -->
+    <div class="address-bar">
+      <div class="input-group">
+        <label for="addr-input" class="visually-hidden">Địa chỉ giao hàng</label>
+        <input type="text" id="addr-input" class="form-control"
+               placeholder="Nhập địa chỉ giao hàng của bạn...">
+        <button class="btn btn-red" type="button" onclick="findStore()" aria-label="Tìm">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+      </div>
+      <p class="order-bar__note" id="addr-note">
+        Giao trong 20–30 phút · Miễn phí giao hàng cho đơn từ 150.000đ
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     TÌM MÓN
+     ══════════════════════════════════════════════════════════ -->
+<section style="background:white; padding:18px 0; border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="input-group">
+          <span class="input-group-text" style="background:var(--red-light);border-color:var(--border);">🔍</span>
+          <label for="home-search" class="visually-hidden">Tìm món ăn</label>
+          <input type="text" id="home-search" class="form-control form-control-lg"
+                 placeholder="Tìm món ăn..."
+                 style="border-color:var(--border);">
+          <button class="btn btn-red" type="button" onclick="searchMenu()">Tìm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     DANH MỤC (dựa wireframe: 5 icon rectangle + label)
+     ══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Danh mục</h2>
+
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-3">
+
+      <div class="col">
+        <a href="thucdon.html?cat=ga" class="text-decoration-none">
+          <div class="cat-card active">
+            <div class="cat-icon">
+              <!-- ẢNH: img/categories/ga.jpg · 400×400 · ảnh vuông món đại diện -->
+              <div class="img-slot img-slot--sm">
+                <img src="img/categories/ga.jpg" alt="Gà rán">
+                <span class="img-slot__hint"><span class="ph-icon">🍗</span>
+                  <b>ga.jpg</b><span class="ph-size">400×400</span></span>
+              </div>
+            </div>
+            <div class="cat-label">Gà rán</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="thucdon.html?cat=burger" class="text-decoration-none">
+          <div class="cat-card">
+            <div class="cat-icon">
+              <!-- ẢNH: img/categories/burger.jpg · 400×400 · ảnh vuông món đại diện -->
+              <div class="img-slot img-slot--sm">
+                <img src="img/categories/burger.jpg" alt="Burger">
+                <span class="img-slot__hint"><span class="ph-icon">🍔</span>
+                  <b>burger.jpg</b><span class="ph-size">400×400</span></span>
+              </div>
+            </div>
+            <div class="cat-label">Burger</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="thucdon.html?cat=mi" class="text-decoration-none">
+          <div class="cat-card">
+            <div class="cat-icon">
+              <!-- ẢNH: img/categories/mi.jpg · 400×400 · ảnh vuông món đại diện -->
+              <div class="img-slot img-slot--sm">
+                <img src="img/categories/mi.jpg" alt="Mì Ý">
+                <span class="img-slot__hint"><span class="ph-icon">🍝</span>
+                  <b>mi.jpg</b><span class="ph-size">400×400</span></span>
+              </div>
+            </div>
+            <div class="cat-label">Mì Ý</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="thucdon.html?cat=trangmiem" class="text-decoration-none">
+          <div class="cat-card">
+            <div class="cat-icon">
+              <!-- ẢNH: img/categories/trangmiem.jpg · 400×400 · ảnh vuông món đại diện -->
+              <div class="img-slot img-slot--sm">
+                <img src="img/categories/trangmiem.jpg" alt="Tráng miệng">
+                <span class="img-slot__hint"><span class="ph-icon">🍦</span>
+                  <b>trangmiem.jpg</b><span class="ph-size">400×400</span></span>
+              </div>
+            </div>
+            <div class="cat-label">Tráng miệng</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="thucdon.html?cat=uong" class="text-decoration-none">
+          <div class="cat-card">
+            <div class="cat-icon">
+              <!-- ẢNH: img/categories/uong.jpg · 400×400 · ảnh vuông món đại diện -->
+              <div class="img-slot img-slot--sm">
+                <img src="img/categories/uong.jpg" alt="Đồ uống">
+                <span class="img-slot__hint"><span class="ph-icon">🥤</span>
+                  <b>uong.jpg</b><span class="ph-size">400×400</span></span>
+              </div>
+            </div>
+            <div class="cat-label">Đồ uống</div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     MÓN BÁN CHẠY (dựa wireframe: Group 1 + Rectangle 9 + price)
+     ══════════════════════════════════════════════════════════ -->
+<section class="section section-gray">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Món bán chạy 🔥</h2>
+      <a href="thucdon.html" class="btn btn-outline-red flex-shrink-0">Xem tất cả →</a>
+    </div>
+
+    <div class="row g-3">
+
+      <!-- Sản phẩm 1 -->
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="product-img img-ph-ga">
+            <!-- ẢNH: img/products/combo-01.jpg · 800×800 -->
+            <div class="img-slot">
+              <img src="img/products/combo-01.jpg" alt="Combo Chickenjoy Đôi">
+              <span class="img-slot__hint"><span class="ph-icon">🍗</span>
+                <b>combo-01.jpg</b><span class="ph-size">800×800</span></span>
+            </div>
+            <span class="badge rounded-pill badge-hot position-absolute top-0 start-0 m-2">Bán chạy</span>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Combo Chickenjoy Đôi</div>
+            <div class="product-desc">2 miếng gà rán giòn + khoai chiên + nước</div>
+            <div>
+              <span class="product-price">79.000đ</span>
+              <span class="product-price-old">99.000đ</span>
+            </div>
+            <button class="btn-add-cart"
+              onclick="Cart.add({id:'combo-01',name:'Combo Chickenjoy Đôi',price:79000,icon:'🍗'})">
+              + Thêm vào giỏ
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sản phẩm 2 -->
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="product-img img-ph-mi">
+            <!-- ẢNH: img/products/mi-01.jpg · 800×800 -->
+            <div class="img-slot">
+              <img src="img/products/mi-01.jpg" alt="Mì Ý Sốt Bò Bằm">
+              <span class="img-slot__hint"><span class="ph-icon">🍝</span>
+                <b>mi-01.jpg</b><span class="ph-size">800×800</span></span>
+            </div>
+            <span class="badge rounded-pill badge-new position-absolute top-0 start-0 m-2">Mới</span>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Mì Ý Sốt Bò Bằm</div>
+            <div class="product-desc">Mì spaghetti sốt thịt bằm đặc trưng Jollibee</div>
+            <div>
+              <span class="product-price">55.000đ</span>
+            </div>
+            <button class="btn-add-cart"
+              onclick="Cart.add({id:'mi-01',name:'Mì Ý Sốt Bò Bằm',price:55000,icon:'🍝'})">
+              + Thêm vào giỏ
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sản phẩm 3 -->
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="product-img img-ph-burger">
+            <!-- ẢNH: img/products/burger-01.jpg · 800×800 -->
+            <div class="img-slot">
+              <img src="img/products/burger-01.jpg" alt="Yumburger Classic">
+              <span class="img-slot__hint"><span class="ph-icon">🍔</span>
+                <b>burger-01.jpg</b><span class="ph-size">800×800</span></span>
+            </div>
+            
+          </div>
+          <div class="product-body">
+            <div class="product-name">Yumburger Classic</div>
+            <div class="product-desc">Burger bò kẹp phô mai và rau tươi</div>
+            <div>
+              <span class="product-price">39.000đ</span>
+            </div>
+            <button class="btn-add-cart"
+              onclick="Cart.add({id:'burger-01',name:'Yumburger Classic',price:39000,icon:'🍔'})">
+              + Thêm vào giỏ
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sản phẩm 4 -->
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="product-img img-ph-trangmiem">
+            <!-- ẢNH: img/products/tm-01.jpg · 800×800 -->
+            <div class="img-slot">
+              <img src="img/products/tm-01.jpg" alt="Halo-Halo Tráng Miệng">
+              <span class="img-slot__hint"><span class="ph-icon">🍦</span>
+                <b>tm-01.jpg</b><span class="ph-size">800×800</span></span>
+            </div>
+            <span class="badge rounded-pill badge-new position-absolute top-0 start-0 m-2">Mới</span>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Halo-Halo Tráng Miệng</div>
+            <div class="product-desc">Tráng miệng đặc trưng Philippines siêu mát</div>
+            <div>
+              <span class="product-price">35.000đ</span>
+            </div>
+            <button class="btn-add-cart"
+              onclick="Cart.add({id:'tm-01',name:'Halo-Halo Tráng Miệng',price:35000,icon:'🍦'})">
+              + Thêm vào giỏ
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     DẢI ẢNH TRÀN VIỀN "ĂN GÌ HÔM NAY"
+     (DESIGN.md §4.1 – ảnh chạm sát mép màn hình, không gutter,
+      khối đỏ đặc bên trái chứa tiêu đề. Mẫu từ jollibee.com.vn)
+     ══════════════════════════════════════════════════════════ -->
+<section class="showcase">
+  <div class="container-fluid px-0">
+    <div class="row g-0">
+
+      <!-- Khối tiêu đề đỏ -->
+      <div class="col-lg-3">
+        <div class="showcase-panel">
+          <h2>Ăn Gì<br>Hôm Nay?</h2>
+          <p>Thực đơn Jollibee đa dạng, luôn có món hợp ý bạn và cả gia đình.</p>
+          <a href="thucdon.html" class="btn btn-yellow">Xem thực đơn</a>
+        </div>
+      </div>
+
+      <!-- 4 ảnh danh mục tràn viền -->
+      <div class="col-lg-9">
+        <div class="row g-0">
+
+          <div class="col-6 col-md-3">
+            <a href="thucdon.html?cat=ga" class="showcase-tile">
+              <!-- ẢNH: img/categories/showcase-ga.jpg · 600×800 (dọc 3:4) -->
+              <div class="img-slot">
+                <img src="img/categories/showcase-ga.jpg" alt="Gà giòn vui vẻ">
+                <span class="img-slot__hint"><span class="ph-icon">🍗</span>
+                  <b>showcase-ga.jpg</b><span class="ph-size">600×800</span></span>
+              </div>
+              <span class="showcase-tile__label">Gà Giòn Vui Vẻ</span>
+            </a>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <a href="thucdon.html?cat=ga" class="showcase-tile">
+              <!-- ẢNH: img/categories/showcase-gasotcay.jpg · 600×800 -->
+              <div class="img-slot">
+                <img src="img/categories/showcase-gasotcay.jpg" alt="Gà sốt cay">
+                <span class="img-slot__hint"><span class="ph-icon">🌶️</span>
+                  <b>showcase-gasotcay.jpg</b><span class="ph-size">600×800</span></span>
+              </div>
+              <span class="showcase-tile__label">Gà Sốt Cay</span>
+            </a>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <a href="thucdon.html?cat=mi" class="showcase-tile">
+              <!-- ẢNH: img/categories/showcase-mi.jpg · 600×800 -->
+              <div class="img-slot">
+                <img src="img/categories/showcase-mi.jpg" alt="Mì Ý sốt bò bằm">
+                <span class="img-slot__hint"><span class="ph-icon">🍝</span>
+                  <b>showcase-mi.jpg</b><span class="ph-size">600×800</span></span>
+              </div>
+              <span class="showcase-tile__label">Mì Ý Sốt Bò Bằm</span>
+            </a>
+          </div>
+
+          <div class="col-6 col-md-3">
+            <a href="thucdon.html?cat=trangmiem" class="showcase-tile">
+              <!-- ẢNH: img/categories/showcase-trangmiem.jpg · 600×800 -->
+              <div class="img-slot">
+                <img src="img/categories/showcase-trangmiem.jpg" alt="Món tráng miệng">
+                <span class="img-slot__hint"><span class="ph-icon">🍦</span>
+                  <b>showcase-trangmiem.jpg</b><span class="ph-size">600×800</span></span>
+              </div>
+              <span class="showcase-tile__label">Món Tráng Miệng</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     BANNER KHUYẾN MÃI
+     ══════════════════════════════════════════════════════════ -->
+<section class="section section-red">
+  <div class="container text-center">
+    <h2 style="font-size:2rem; font-weight:900; color:var(--yellow);">
+      🏷 Ưu Đãi Đặc Biệt Hôm Nay!
+    </h2>
+    <p style="font-size:1.1rem; opacity:.9; max-width:500px; margin:12px auto 24px;">
+      Combo Chickenjoy chỉ còn <strong style="color:var(--yellow);">79.000đ</strong>
+      – tiết kiệm 20% so với giá thường!
+    </p>
+    <a href="khuyenmai.html" class="btn btn-yellow btn-lg">
+      Xem tất cả khuyến mãi →
+    </a>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     DỊCH VỤ
+     ══════════════════════════════════════════════════════════ -->
+<section class="section section-pattern">
+  <div class="container">
+    <h2 class="section-title text-center mx-auto" style="max-width:300px;">Dịch vụ của chúng tôi</h2>
+    <p class="text-center text-muted mb-4">Jollibee luôn sẵn sàng phục vụ bạn theo nhiều hình thức</p>
+
+    <div class="row g-3 text-center">
+
+      <div class="col-6 col-md-3">
+        <div style="background:var(--red-light);border-radius:var(--radius);padding:28px 16px;">
+          <div style="font-size:2.5rem; margin-bottom:12px;">🛵</div>
+          <h6 style="font-weight:800;">Giao hàng</h6>
+          <p class="text-muted" style="font-size:13px; margin:0;">Giao trong 30 phút, miễn phí đơn từ 150K</p>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <div style="background:#FFF9E6;border-radius:var(--radius);padding:28px 16px;">
+          <div style="font-size:2.5rem; margin-bottom:12px;">🏪</div>
+          <h6 style="font-weight:800;">Đến lấy</h6>
+          <p class="text-muted" style="font-size:13px; margin:0;">Đặt trước, đến lấy không cần chờ</p>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <div style="background:#E8F5E9;border-radius:var(--radius);padding:28px 16px;">
+          <div style="font-size:2.5rem; margin-bottom:12px;">🎂</div>
+          <h6 style="font-weight:800;">Đặt tiệc</h6>
+          <p class="text-muted" style="font-size:13px; margin:0;">Tổ chức sinh nhật và sự kiện</p>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <div style="background:#E3F2FD;border-radius:var(--radius);padding:28px 16px;">
+          <div style="font-size:2.5rem; margin-bottom:12px;">📦</div>
+          <h6 style="font-weight:800;">Đơn lớn</h6>
+          <p class="text-muted" style="font-size:13px; margin:0;">Phục vụ công ty, trường học, sự kiện</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Footer -->
+<div id="footer"></div>
+
+
+<!-- ── SCRIPTS ──────────────────────────────────────────── -->
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Components (navbar + footer) -->
+<script src="js/components.js"></script>
+<!-- Main JS (Cart, Toast) -->
+<script src="js/main.js"></script>
+
+<script>
+  // Tìm kiếm: chuyển sang trang thực đơn kèm query
+  const homeSearch = document.getElementById('home-search');
+
+  function searchMenu() {
+    const q = homeSearch.value.trim();
+    if (q) window.location.href = `thucdon.html?q=${encodeURIComponent(q)}`;
+  }
+
+  // Chỉ tìm khi bấm nút hoặc nhấn Enter (không tìm theo từng ký tự)
+  homeSearch.addEventListener('keydown', e => {
+    if (e.key === 'Enter') searchMenu();
+  });
+
+  // ── Chuyển đổi Giao hàng / Đến lấy ────────────────────────
+  const addrInput = document.getElementById('addr-input');
+  const addrNote  = document.getElementById('addr-note');
+
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.mode-btn')
+              .forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const isPickup = btn.dataset.mode === 'pickup';
+      addrInput.placeholder = isPickup
+        ? 'Tìm cửa hàng gần bạn nhất...'
+        : 'Nhập địa chỉ giao hàng của bạn...';
+      addrNote.textContent = isPickup
+        ? 'Đặt trước, đến lấy không cần chờ · Hơn 150 cửa hàng toàn quốc'
+        : 'Giao trong 20–30 phút · Miễn phí giao hàng cho đơn từ 150.000đ';
+
+      // Ghi nhớ lựa chọn để trang thanh toán dùng lại
+      localStorage.setItem('jollibee_mode', btn.dataset.mode);
+    });
+  });
+
+  // Khôi phục lựa chọn đã lưu
+  const savedMode = localStorage.getItem('jollibee_mode');
+  if (savedMode === 'pickup') {
+    document.querySelector('.mode-btn[data-mode="pickup"]')?.click();
+  }
+
+  function findStore() {
+    const v = addrInput.value.trim();
+    localStorage.setItem('jollibee_address', v);
+    Toast.show(v
+      ? `📍 Đã ghi nhận địa chỉ: ${v}`
+      : '📍 Vui lòng nhập địa chỉ để chúng tôi tìm cửa hàng gần nhất');
+  }
+  window.findStore = findStore;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đặt hàng thành công – Jollibee Vietnam</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="navbar"></div>
+
+<!-- Stepper: bước 4 done -->
+<div class="steps-bar">
+  <div class="step-item done"><div class="step-circle">✓</div><div class="step-label">Giỏ hàng</div></div>
+  <div class="step-line done"></div>
+  <div class="step-item done"><div class="step-circle">✓</div><div class="step-label">Thông tin</div></div>
+  <div class="step-line done"></div>
+  <div class="step-item done"><div class="step-circle">✓</div><div class="step-label">Thanh toán</div></div>
+  <div class="step-line done"></div>
+  <div class="step-item active"><div class="step-circle">🎉</div><div class="step-label">Xác nhận</div></div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 text-center">
+
+        <!-- Thành công icon -->
+        <div style="width:100px;height:100px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:3rem;margin:0 auto 24px;box-shadow:0 8px 24px rgba(207,16,32,.3);">
+          ✅
+        </div>
+
+        <h1 style="font-size:2rem;font-weight:900;color:var(--dark);">
+          Đặt hàng thành công! 🎉
+        </h1>
+        <p class="text-muted mt-2" style="font-size:1rem;">
+          Cảm ơn bạn đã tin tưởng Jollibee.<br>
+          Đơn hàng của bạn đang được xử lý.
+        </p>
+
+        <!-- Thông tin đơn hàng -->
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:24px 0;text-align:left;"
+             id="order-detail">
+          <p class="text-muted text-center">Đang tải thông tin đơn hàng...</p>
+        </div>
+
+        <!-- Thời gian giao -->
+        <div style="background:var(--red-light);border-radius:var(--radius);padding:20px;margin-bottom:24px;">
+          <div style="font-size:1.5rem; margin-bottom:8px;">⏱</div>
+          <strong style="color:var(--red);font-size:1.1rem;">Dự kiến giao hàng: 20–30 phút</strong>
+          <p class="mb-0 mt-1" style="font-size:13px;color:var(--gray);">
+            Tài xế sẽ liên hệ trước khi đến. Tổng đài hỗ trợ: <strong>1900-1533</strong>
+          </p>
+        </div>
+
+        <!-- Nút hành động -->
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a href="index.html" class="btn btn-red btn-lg">
+            🏠 Về trang chủ
+          </a>
+          <a href="thucdon.html" class="btn btn-outline-red btn-lg">
+            🍽 Đặt thêm món
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/components.js"></script>
+<script src="js/main.js"></script>
+<script>
+function renderOrderDetail() {
+  const order = JSON.parse(localStorage.getItem('jollibee_last_order') || '{}');
+  const el    = document.getElementById('order-detail');
+
+  if (!order.id) {
+    el.innerHTML = '<p class="text-muted text-center">Không có thông tin đơn hàng</p>';
+    return;
+  }
+
+  const paymentLabels = {
+    cash: '💵 Tiền mặt khi nhận hàng',
+    card: '💳 Thẻ ngân hàng / ATM',
+    momo: '📱 Ví MoMo / ZaloPay'
+  };
+
+  el.innerHTML = `
+    <div class="d-flex justify-content-between mb-3">
+      <span style="font-size:13px;color:var(--gray);">Mã đơn hàng</span>
+      <strong style="color:var(--red);">#${order.id}</strong>
+    </div>
+    <div class="d-flex justify-content-between mb-3">
+      <span style="font-size:13px;color:var(--gray);">Khách hàng</span>
+      <strong>${order.name}</strong>
+    </div>
+    <div class="d-flex justify-content-between mb-3">
+      <span style="font-size:13px;color:var(--gray);">Số điện thoại</span>
+      <strong>${order.phone}</strong>
+    </div>
+    <div class="d-flex justify-content-between mb-3">
+      <span style="font-size:13px;color:var(--gray);">Thanh toán</span>
+      <strong>${paymentLabels[order.payment] || order.payment}</strong>
+    </div>
+    <hr>
+    <div style="font-size:13px;color:var(--gray);margin-bottom:8px;font-weight:700;">Sản phẩm đã đặt:</div>
+    ${(order.items||[]).map(i => `
+      <div class="d-flex justify-content-between" style="font-size:14px;margin-bottom:6px;">
+        <span>${i.icon} ${i.name} × ${i.qty}</span>
+        <strong style="color:var(--red);">${(i.price*i.qty).toLocaleString('vi-VN')}đ</strong>
+      </div>
+    `).join('')}
+    <hr>
+    <div class="d-flex justify-content-between">
+      <strong style="font-size:16px;">Tổng cộng</strong>
+      <strong style="color:var(--red);font-size:20px;">${(order.total||0).toLocaleString('vi-VN')}đ</strong>
+    </div>
+    <div style="font-size:12px;color:var(--gray);margin-top:8px;text-align:right;">${order.time}</div>
+  `;
+}
+
+renderOrderDetail();
+</script>
+</body>
+</html>

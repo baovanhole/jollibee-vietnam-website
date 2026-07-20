@@ -1,0 +1,1561 @@
+/* ============================================================
+   JOLLIBEE VIETNAM – Prototype Website
+   Môn: Thiết Kế Giao Diện Người Dùng – Trường ĐH Văn Lang
+   Nhóm 7 – HK253
+   ============================================================ */
+
+/* ── 1. DESIGN TOKENS ─────────────────────────────────────
+   Giá trị lấy theo DESIGN.md (trích xuất từ jollibee.com.vn thật)
+   ───────────────────────────────────────────────────────── */
+:root {
+  /* Màu thương hiệu */
+  --red:        #E31837;   /* Đỏ chủ đạo – nav, footer, CTA, giá */
+  --red-dark:   #D11633;   /* Đỏ đậm – hover */
+  --red-light:  #FDECEE;   /* Đỏ rất nhạt – nền nhấn */
+  --yellow:     #FFC522;   /* Vàng – nút nổi, header bước chọn món */
+  --yellow-dark:#E5AC10;   /* Vàng đậm – hover */
+  --orange:     #ED7D22;   /* Cam – điểm nhấn phụ */
+
+  /* Nền */
+  --cream:      #F7F3EA;   /* Nền section ấm (thay xám lạnh) */
+  --gray-light: #F2F2F2;
+  --border:     #E8E4DC;
+  --white:      #FFFFFF;
+
+  /* Chữ – không dùng #000 */
+  --text:       #333333;
+  --text-muted: #6B6E79;
+  /* Giữ tên cũ để CSS/HTML hiện có không vỡ */
+  --dark:       #333333;
+  --gray:       #6B6E79;
+
+  /* Footer */
+  --footer-bg:  #1A0A0C;
+
+  /* Chữ */
+  --font-display: 'Nunito', system-ui, sans-serif;
+  --font-body:    'Nunito', 'Segoe UI', sans-serif;
+
+  /* Bo góc – 3 mức */
+  --radius-sm:   5px;      /* input, nhãn */
+  --radius:      14px;     /* thẻ, modal */
+  --radius-pill: 999px;    /* nút CTA chính */
+
+  /* Đổ bóng */
+  --shadow-sm:  0 2px 8px rgba(0,0,0,.06);
+  --shadow-md:  0 6px 24px rgba(0,0,0,.10);
+  --shadow-lg:  0 16px 48px rgba(0,0,0,.16);
+
+  /* Khoảng cách – thang 4px */
+  --sp-1: 4px;   --sp-2: 8px;   --sp-3: 12px;
+  --sp-4: 16px;  --sp-6: 24px;  --sp-8: 32px;
+  --sp-12: 48px; --sp-16: 64px;
+  --section-py: 64px;
+
+  /* Chuyển động */
+  --t-fast: 150ms;
+  --t-base: 250ms;
+  --t-slow: 400ms;
+  --ease: cubic-bezier(.4, 0, .2, 1);
+}
+
+/* ── 2. RESET & BASE ──────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+a { text-decoration: none; color: inherit; }
+a:hover { color: var(--red); }
+img { max-width: 100%; }
+
+/* Tôn trọng người dùng bị say chuyển động */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── 2b. KHUNG ẢNH (.img-slot) ────────────────────────────
+   Cách dùng: đặt <img> thật vào trong .img-slot.
+   • Khi CHƯA có file ảnh → hiện khung gợi ý tên file + kích thước
+   • Khi ĐÃ bỏ file vào đúng đường dẫn → ảnh tự hiện, khung gợi ý biến mất
+   Nhóm chỉ cần copy ảnh vào thư mục img/, KHÔNG phải sửa code.
+   ───────────────────────────────────────────────────────── */
+.img-slot {
+  display: block;            /* dùng được cả khi thẻ là <span> */
+  position: relative;
+  aspect-ratio: var(--ratio, 1 / 1);
+  background: var(--cream);
+  overflow: hidden;
+}
+.img-slot > img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--t-slow) var(--ease);
+}
+/* Trạng thái thiếu ảnh: ẩn thẻ img vỡ, hiện khung gợi ý */
+.img-slot.is-empty > img { display: none; }
+.img-slot__hint { display: none; }
+.img-slot.is-empty > .img-slot__hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  position: absolute;
+  inset: 8px;
+  border: 2px dashed #C9BFA8;
+  border-radius: var(--radius-sm);
+  background: repeating-linear-gradient(
+    45deg, transparent, transparent 10px,
+    rgba(201,191,168,.13) 10px, rgba(201,191,168,.13) 20px);
+  color: #8A7F6A;
+  text-align: center;
+  padding: 10px;
+  font-size: 11px;
+  line-height: 1.45;
+  font-weight: 600;
+}
+.img-slot__hint b {
+  display: block;
+  font-size: 11.5px;
+  color: #6E6450;
+  word-break: break-all;
+  font-weight: 800;
+}
+.img-slot__hint .ph-icon { font-size: 1.6rem; opacity: .5; }
+.img-slot__hint .ph-size {
+  font-weight: 700;
+  background: rgba(255,255,255,.75);
+  border-radius: 20px;
+  padding: 1px 8px;
+}
+/* Khung vừa (vòng tròn danh mục ~86px): giữ tên file, bỏ kích thước */
+.img-slot--sm .img-slot__hint { padding: 4px; gap: 3px; inset: 5px; }
+.img-slot--sm .img-slot__hint .ph-icon { font-size: 1.25rem; }
+.img-slot--sm .img-slot__hint b { font-size: 8.5px; line-height: 1.2; }
+.img-slot--sm .img-slot__hint .ph-size { display: none; }
+
+/* Khung nhỏ (option trong modal ~48px): chỉ còn icon cho đỡ rối */
+.img-slot--xs .img-slot__hint { padding: 2px; font-size: 0; gap: 0; inset: 3px; }
+.img-slot--xs .img-slot__hint .ph-icon { font-size: 1.1rem; }
+.img-slot--xs .img-slot__hint b,
+.img-slot--xs .img-slot__hint .ph-size { display: none; }
+
+/* ── 3. TOPBAR (thông báo hotline trên cùng) ─────────────── */
+.topbar {
+  background: var(--red);
+  color: white;
+  font-size: 13px;
+  padding: 6px 0;
+  text-align: center;
+}
+.topbar a { color: var(--yellow); font-weight: 700; }
+
+/* ── 4. NAVBAR ───────────────────────────────────────────── */
+.navbar-jollibee {
+  background: #fff;
+  border-bottom: 3px solid var(--red);
+  box-shadow: var(--shadow-sm);
+  padding: 0;
+}
+
+/* Logo nền đỏ */
+.navbar-brand {
+  background: var(--red);
+  color: white !important;
+  font-size: 1.3rem;
+  font-weight: 900;
+  padding: 14px 20px !important;
+  letter-spacing: 1px;
+  border-radius: 0;
+}
+.navbar-brand:hover { background: var(--red-dark); }
+
+/* Nav links */
+.navbar-nav .nav-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dark) !important;
+  padding: 20px 14px !important;
+  position: relative;
+  transition: color .2s;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: var(--red) !important;
+}
+/* Underline active */
+.navbar-nav .nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 14px; right: 14px;
+  height: 3px;
+  background: var(--red);
+  border-radius: 2px 2px 0 0;
+}
+
+/* Nút "Đặt hàng ngay" trong nav */
+.btn-nav-order {
+  background: var(--red);
+  color: white !important;
+  border-radius: var(--radius-sm);
+  padding: 8px 18px !important;
+  font-weight: 700;
+  font-size: 14px;
+  margin: 10px 0 10px 8px;
+  transition: background .2s, transform .15s;
+}
+.btn-nav-order:hover {
+  background: var(--red-dark);
+  transform: translateY(-1px);
+  color: white !important;
+}
+
+/* ── 5. BUTTONS ──────────────────────────────────────────
+   Nút CTA chính dùng bo góc viên thuốc (đặc trưng ngành F&B)
+   ───────────────────────────────────────────────────────── */
+.btn-red {
+  background: var(--red);
+  color: white;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  padding: 10px 26px;
+  transition: background var(--t-base) var(--ease),
+              transform var(--t-fast) var(--ease),
+              box-shadow var(--t-fast) var(--ease);
+}
+.btn-red:hover {
+  background: var(--red-dark);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(227,24,55,.32);
+}
+
+.btn-yellow {
+  background: var(--yellow);
+  color: #8A2B12;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-weight: 800;
+  padding: 10px 26px;
+  transition: background var(--t-base) var(--ease),
+              transform var(--t-fast) var(--ease),
+              box-shadow var(--t-fast) var(--ease);
+}
+.btn-yellow:hover {
+  background: var(--yellow-dark);
+  color: #8A2B12;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255,197,34,.45);
+}
+
+.btn-outline-red {
+  border: 2px solid var(--red);
+  color: var(--red);
+  background: transparent;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  letter-spacing: .4px;
+  padding: 8px 22px;
+  transition: background var(--t-base) var(--ease),
+              color var(--t-base) var(--ease);
+}
+.btn-outline-red:hover {
+  background: var(--red);
+  color: white;
+}
+
+/* ── 5b. NÚT CHUYỂN GIAO HÀNG / ĐẾN LẤY ──────────────────
+   Mẫu lấy từ jollibee.com.vn: cặp nút, active đỏ đặc
+   ───────────────────────────────────────────────────────── */
+.mode-switch {
+  display: inline-flex;
+  gap: 8px;
+  background: rgba(0,0,0,.05);
+  padding: 5px;
+  border-radius: var(--radius-pill);
+}
+.mode-btn {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  padding: 9px 22px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background var(--t-base) var(--ease),
+              color var(--t-base) var(--ease);
+}
+.mode-btn:hover { color: var(--red); }
+.mode-btn.active {
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(227,24,55,.3);
+}
+
+/* Dải chọn hình thức nhận hàng dưới hero */
+.order-bar {
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 0 20px;
+}
+.order-bar__note {
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin: 10px 0 0;
+}
+
+/* Ô nhập địa chỉ giao hàng (bo tròn hoàn toàn) */
+.address-bar { max-width: 620px; margin: 0 auto; }
+.address-bar .form-control {
+  border-radius: var(--radius-pill) 0 0 var(--radius-pill);
+  border: 1px solid var(--border);
+  border-right: none;
+  padding: 14px 24px;
+  font-size: 15px;
+}
+.address-bar .form-control:focus { box-shadow: none; border-color: var(--red); }
+.address-bar .btn {
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  padding: 0 24px;
+}
+
+/* ── 5c. NÚT GIỎ HÀNG NỔI (dính góc dưới phải) ───────────
+   Mẫu lấy từ jollibee.com.vn – luôn thấy tổng tiền
+   ───────────────────────────────────────────────────────── */
+.cart-fab {
+  position: fixed;
+  right: 20px; bottom: 20px;
+  z-index: 1035;
+  display: none;                /* JS bật khi giỏ có món */
+  align-items: center;
+  gap: 10px;
+  background: var(--yellow);
+  color: #8A2B12;
+  font-weight: 900;
+  font-size: 15px;
+  padding: 13px 22px;
+  border: none;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  transition: transform var(--t-base) var(--ease),
+              background var(--t-base) var(--ease);
+}
+.cart-fab:hover {
+  background: var(--yellow-dark);
+  color: #8A2B12;
+  transform: translateY(-3px);
+}
+.cart-fab.is-visible { display: inline-flex; }
+.cart-fab__icon { font-size: 1.15rem; line-height: 1; }
+.cart-fab__count {
+  background: var(--red);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 900;
+  min-width: 20px; height: 20px;
+  padding: 0 5px;
+  border-radius: var(--radius-pill);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+/* Nhấn nhẹ khi có món mới được thêm */
+@keyframes cartBump {
+  0%,100% { transform: scale(1); }
+  35%     { transform: scale(1.12); }
+}
+.cart-fab.bump { animation: cartBump var(--t-slow) var(--ease); }
+
+/* ── 6. HERO BANNER (Trang chủ) ─────────────────────────── */
+.hero {
+  background: linear-gradient(135deg, var(--red) 0%, #8B0000 100%);
+  color: white;
+  padding: 60px 0;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  /* Vòng trang trí nền */
+  content: '';
+  position: absolute;
+  right: -100px; top: -100px;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: rgba(255,197,43,.15);
+}
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: 900;
+  line-height: 1.2;
+  text-shadow: 0 2px 4px rgba(0,0,0,.2);
+}
+.hero .subtitle {
+  font-size: 1.1rem;
+  opacity: .9;
+  margin: 12px 0 28px;
+}
+.hero-img-placeholder {
+  background: rgba(255,255,255,.12);
+  border-radius: 20px;
+  height: 300px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6rem;
+}
+.hero-img-placeholder .img-slot {
+  width: 100%; height: 100%;
+  aspect-ratio: auto;
+  background: transparent;
+}
+.hero-img-placeholder .img-slot > img { object-fit: contain; }
+/* Khung gợi ý ảnh trên nền đỏ thì đổi sang tông sáng cho đọc được */
+.hero-img-placeholder .img-slot.is-empty > .img-slot__hint {
+  border-color: rgba(255,255,255,.5);
+  color: #fff;
+  background: rgba(255,255,255,.08);
+}
+.hero-img-placeholder .img-slot__hint b { color: #fff; }
+.hero-img-placeholder .img-slot__hint .ph-size {
+  background: rgba(0,0,0,.22); color: #fff;
+}
+
+/* Carousel indicators – tuỳ biến .carousel-indicators của Bootstrap */
+.hero-dots.carousel-indicators {
+  position: absolute;
+  bottom: -6px;
+  margin: 0 0 12px;
+  justify-content: center;
+}
+.hero-dots.carousel-indicators [data-bs-target] {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.4);
+  border: none;
+  margin: 0 4px;
+  opacity: 1;
+  transition: width .25s, background .25s, border-radius .25s;
+}
+.hero-dots.carousel-indicators .active {
+  background: var(--yellow);
+  width: 28px;
+  border-radius: 5px;
+}
+
+/* Nút prev/next chỉ hiện từ tablet trở lên cho đỡ che nội dung */
+.hero .carousel-control-prev,
+.hero .carousel-control-next { width: 6%; opacity: .5; }
+.hero .carousel-control-prev:hover,
+.hero .carousel-control-next:hover { opacity: .9; }
+@media (max-width: 767.98px) {
+  .hero .carousel-control-prev,
+  .hero .carousel-control-next { display: none; }
+}
+
+/* Nhãn nhỏ phía trên tiêu đề hero */
+.hero-eyebrow {
+  color: var(--yellow);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ── 7. DANH MỤC ICON ────────────────────────────────────── */
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--dark);
+  position: relative;
+  padding-bottom: 10px;
+  margin-bottom: 24px;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 50px; height: 3px;
+  background: var(--red);
+  border-radius: 2px;
+}
+
+/* Thẻ danh mục – dùng ẢNH món thật thay vì emoji (mẫu jollibee.com.vn) */
+.cat-card {
+  text-align: center;
+  cursor: pointer;
+  transition: transform var(--t-base) var(--ease);
+}
+.cat-card:hover { transform: translateY(-4px); }
+.cat-icon {
+  width: 86px; height: 86px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--cream);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+  margin: 0 auto 10px;
+  border: 3px solid transparent;
+  transition: border-color var(--t-base) var(--ease),
+              box-shadow var(--t-base) var(--ease);
+}
+.cat-icon .img-slot { width: 100%; height: 100%; aspect-ratio: auto; }
+.cat-card:hover .cat-icon,
+.cat-card.active .cat-icon {
+  border-color: var(--yellow);
+  box-shadow: 0 6px 18px rgba(227,24,55,.22);
+}
+.cat-label {
+  font-size: 12.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+  color: var(--text);
+}
+.cat-card.active .cat-label { color: var(--red); }
+
+/* Thanh danh mục DÍNH ở trang thực đơn (mẫu jollibee.com.vn) */
+.cat-rail {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  background: var(--red-light);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+  transition: padding var(--t-base) var(--ease);
+}
+.cat-rail__inner {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.cat-rail__inner::-webkit-scrollbar { display: none; }
+.cat-rail .cat-btn {
+  flex: 1 0 auto;
+  min-width: 92px;
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  text-align: center;
+}
+.cat-rail .cat-thumb {
+  display: block;
+  width: 58px; height: 58px;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+  border: 2px solid transparent;
+  transition: border-color var(--t-base) var(--ease),
+              transform var(--t-base) var(--ease);
+}
+.cat-rail .cat-thumb .img-slot { width: 100%; height: 100%; aspect-ratio: auto; }
+.cat-rail .cat-btn:hover .cat-thumb { transform: translateY(-2px); }
+.cat-rail .cat-btn.active .cat-thumb { border-color: var(--red); }
+.cat-rail .cat-name {
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .2px;
+  color: var(--text);
+  line-height: 1.25;
+  display: block;
+}
+.cat-rail .cat-btn.active .cat-name { color: var(--red); }
+
+/* ── 8. PRODUCT CARDS ────────────────────────────────────── */
+/* Thẻ sản phẩm – bỏ viền, chỉ dùng bóng nhẹ để ảnh món nổi lên
+   (DESIGN.md: đừng dùng đồng thời viền + bóng + nền màu) */
+.product-card {
+  border: none;
+  border-radius: var(--radius);
+  background: white;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--t-base) var(--ease),
+              box-shadow var(--t-base) var(--ease);
+  height: 100%;
+  /* Cột dọc để phần thân card giãn đều, giá + nút luôn nằm dưới cùng */
+  display: flex;
+  flex-direction: column;
+}
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Ảnh món ăn – nền trắng/kem, KHÔNG dùng gradient đỏ */
+.product-img {
+  height: 180px;
+  flex-shrink: 0;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.product-img .img-slot { width: 100%; height: 100%; aspect-ratio: auto; }
+.product-card:hover .product-img .img-slot > img { transform: scale(1.05); }
+
+/* Badge "Bán chạy", "Mới" – Bootstrap .badge + màu brand
+   (vị trí đặt bằng utility: position-absolute top-0 start-0 m-2) */
+.badge-hot {
+  background: var(--yellow);
+  color: var(--red);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+}
+.badge-new {
+  background: #28a745;
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+}
+
+.product-body { padding: 14px 16px 16px; }
+.product-name {
+  font-size: 14.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .2px;
+  line-height: 1.35;
+  color: var(--text);
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.product-desc {
+  font-size: 12px;
+  color: var(--gray);
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.product-price {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--red);
+}
+.product-price-old {
+  font-size: 12px;
+  color: var(--gray);
+  text-decoration: line-through;
+  margin-left: 6px;
+}
+.btn-add-cart {
+  background: var(--red);
+  color: white;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 800;
+  padding: 9px 14px;
+  transition: background var(--t-base) var(--ease),
+              transform var(--t-fast) var(--ease);
+  width: 100%;
+  margin-top: 10px;
+}
+.btn-add-cart:hover {
+  background: var(--red-dark);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ── 9. KHUYẾN MÃI CARDS ─────────────────────────────────── */
+.promo-card {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+  background: white;
+  height: 100%;
+}
+.promo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+.promo-img {
+  background: var(--cream);
+  display: block;
+  font-size: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.promo-img .img-slot { width: 100%; }
+.promo-card:hover .promo-img .img-slot > img { transform: scale(1.04); }
+.promo-cat-badge {
+  background: var(--red);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+}
+.promo-body { padding: 16px; }
+.promo-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--dark);
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.promo-date { font-size: 12px; color: var(--gray); margin-bottom: 12px; }
+
+/* ── 10. GIỎ HÀNG ────────────────────────────────────────── */
+.cart-item {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.cart-item-img {
+  width: 72px; height: 72px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  flex-shrink: 0;
+}
+.cart-item-img .img-slot { width: 100%; height: 100%; aspect-ratio: auto; }
+.cart-item-name { font-size: 14px; font-weight: 700; }
+.cart-item-price { color: var(--red); font-weight: 800; font-size: 16px; }
+
+/* Quantity control */
+.qty-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/* Vùng bấm ≥ 40px cho cảm ứng (WCAG 2.5.5 khuyến nghị 44px) */
+.qty-btn {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: white;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color var(--t-base) var(--ease),
+              color var(--t-base) var(--ease);
+}
+.qty-btn:hover { border-color: var(--red); color: var(--red); }
+.qty-num { font-size: 16px; font-weight: 700; min-width: 24px; text-align: center; }
+
+/* Order summary box */
+.order-summary {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: sticky;
+  top: 20px;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.summary-row:last-of-type { border-bottom: none; }
+.summary-total {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--red);
+}
+
+/* ── 11. CHECKOUT STEPS ──────────────────────────────────── */
+.steps-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+  background: white;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 30px;
+}
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.step-circle {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--gray);
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+}
+.step-item.active .step-circle { background: var(--red); color: white; }
+.step-item.done .step-circle   { background: #28a745; color: white; }
+.step-label { font-size: 12px; font-weight: 600; margin-top: 6px; color: var(--gray); }
+.step-item.active .step-label  { color: var(--red); }
+.step-item.done .step-label    { color: #28a745; }
+.step-line {
+  height: 3px; width: 80px;
+  background: var(--border);
+  margin: 0 6px;
+  margin-bottom: 18px;
+}
+.step-line.done { background: #28a745; }
+
+/* ── 12. FORM ────────────────────────────────────────────── */
+.form-label { font-size: 13px; font-weight: 700; color: var(--dark); }
+.form-control:focus {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(207,16,32,.15);
+}
+.form-select:focus {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(207,16,32,.15);
+}
+
+/* Payment option cards */
+.payment-option {
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.payment-option:hover { border-color: var(--red); background: var(--red-light); }
+.payment-option.selected { border-color: var(--red); background: var(--red-light); }
+.payment-option input[type="radio"] { accent-color: var(--red); }
+
+/* ── 13. FOOTER ──────────────────────────────────────────── */
+.footer {
+  background: var(--footer-bg);
+  color: #bbb;
+  padding: 50px 0 0;
+}
+.footer-logo {
+  background: var(--red);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 900;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  margin-bottom: 14px;
+}
+.footer h6 {
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+}
+.footer a {
+  color: #999;
+  font-size: 13px;
+  display: block;
+  margin-bottom: 8px;
+  transition: color .2s;
+}
+.footer a:hover { color: var(--yellow); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.08);
+  margin-top: 40px;
+  padding: 16px 0;
+  font-size: 12px;
+  text-align: center;
+  color: #666;
+}
+
+/* ── 14. TOAST NOTIFICATION (tuỳ biến Bootstrap Toast) ───── */
+.toast-container { z-index: 9999; }
+.toast-jollibee {
+  background: var(--dark);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+}
+.toast-jollibee .toast-body { padding: 12px 16px 12px 20px; }
+
+/* ── 15. CART BADGE (số lượng giỏ hàng) ─────────────────── */
+.cart-badge {
+  position: relative;
+  display: inline-block;
+}
+.cart-count {
+  position: absolute;
+  top: -8px; right: -8px;
+  background: var(--yellow);
+  color: var(--red);
+  font-size: 10px;
+  font-weight: 900;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── 16. SECTIONS ────────────────────────────────────────── */
+.section { padding: var(--section-py) 0; }
+.section-gray { background: var(--cream); }   /* kem ấm thay xám lạnh */
+.section-red  { background: var(--red); color: white; }
+
+/* Dải section có hoạ tiết thương hiệu in chìm (mẫu jollibee.com.vn)
+   Hoạ tiết phải RẤT chìm – chỉ để tạo chất liệu, không được
+   cạnh tranh với nội dung. Dùng ::before + opacity thấp để
+   chữ và thẻ bên trên luôn đọc rõ. */
+.section-pattern {
+  position: relative;
+  background-color: var(--cream);
+  isolation: isolate;
+}
+.section-pattern::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23D9CDB4' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 30c0-7 5-12 12-12s12 5 12 12'/%3E%3Cpath d='M17 30h30l-3 16H20z'/%3E%3Ccircle cx='100' cy='28' r='11'/%3E%3Cpath d='M94 28h12M100 22v12'/%3E%3Cpath d='M28 88l6 26h16l6-26z'/%3E%3Cpath d='M26 88h36'/%3E%3Cpath d='M96 84c8 0 14 6 14 13v17H82V97c0-7 6-13 14-13z'/%3E%3Cpath d='M86 104h20'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 280px 280px;
+}
+
+/* Dải ảnh tràn viền (full-bleed) – phá nhịp container đơn điệu */
+.showcase-panel {
+  background: var(--red);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 28px;
+  min-height: 100%;
+}
+.showcase-panel h2 {
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1.15;
+  margin: 0 0 10px;
+}
+.showcase-panel p {
+  font-size: 14px;
+  opacity: .9;
+  margin: 0 0 20px;
+  max-width: 260px;
+}
+.showcase-tile { position: relative; display: block; overflow: hidden; }
+.showcase-tile .img-slot { --ratio: 3 / 4; }
+.showcase-tile:hover .img-slot > img { transform: scale(1.05); }
+.showcase-tile__label {
+  position: absolute;
+  left: 12px; right: 12px; bottom: 12px;
+  background: var(--red);
+  color: #fff;
+  font-weight: 900;
+  font-size: 15px;
+  text-align: center;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  transition: background var(--t-base) var(--ease);
+}
+.showcase-tile:hover .showcase-tile__label { background: var(--red-dark); }
+
+/* Tiêu đề section kiểu KFC: chữ hoa + đường kẻ kéo dài sang phải */
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+/* h2 giãn hết chỗ trống và tự kéo đường kẻ → nút bị đẩy sang phải */
+.section-heading h2 {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  margin: 0;
+  white-space: nowrap;
+}
+.section-heading h2::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+  border-radius: 2px;
+}
+@media (max-width: 575.98px) {
+  .section-heading { flex-wrap: wrap; gap: 12px; }
+  .section-heading h2 { font-size: 1.15rem; white-space: normal; }
+}
+
+/* ── 17. RESPONSIVE ──────────────────────────────────────── */
+
+/* Tablet (≤ 991.98px – breakpoint lg của Bootstrap) */
+@media (max-width: 991.98px) {
+  .hero h1 { font-size: 2.2rem; }
+  .order-summary { position: static; }   /* bỏ sticky khi cột dồn xuống dưới */
+}
+
+/* Mobile (≤ 767.98px – breakpoint md của Bootstrap) */
+@media (max-width: 767.98px) {
+  .hero { padding: 40px 0; }
+  .hero h1 { font-size: 1.8rem; }
+  .hero .subtitle { font-size: 1rem; }
+  .hero-img-placeholder { height: 180px; font-size: 4rem; }
+  .section { padding: 36px 0; }
+  .section-title { font-size: 1.2rem; }
+
+  /* Stepper: thu nhỏ để 4 bước vừa màn hình hẹp */
+  .steps-bar { padding: 16px 0; }
+  .step-line   { width: 32px; margin: 0 4px 18px; }
+  .step-circle { width: 34px; height: 34px; font-size: 13px; }
+  .step-label  { font-size: 10px; }
+
+  /* Giỏ hàng: cho phép xuống dòng thay vì tràn ngang */
+  .cart-item { flex-wrap: wrap; gap: 10px; padding: 12px; }
+  .cart-item-img { width: 56px; height: 56px; font-size: 1.8rem; }
+  .cart-item .flex-grow-1 { flex: 1 1 60%; min-width: 0; }
+  .cart-item-name { word-break: break-word; }
+
+  /* Card sản phẩm gọn hơn trên mobile */
+  .product-img,
+  .product-card .product-img-wrap { height: 140px; font-size: 3rem; }
+  .product-name { font-size: 14px; }
+}
+
+/* Mobile nhỏ (≤ 575.98px – breakpoint sm) */
+@media (max-width: 575.98px) {
+  /* Nút chuyển Giao hàng / Đến lấy: thu gọn cho vừa 1 dòng */
+  .mode-switch { display: flex; width: 100%; padding: 4px; }
+  .mode-btn {
+    flex: 1;
+    font-size: 11.5px;
+    letter-spacing: .2px;
+    padding: 9px 8px;
+    white-space: nowrap;
+  }
+  .order-bar { padding: 18px 0 16px; }
+  .address-bar .form-control { padding: 12px 18px; font-size: 14px; }
+
+  /* Nút giỏ nổi gọn lại, không che nội dung */
+  .cart-fab { right: 12px; bottom: 12px; padding: 11px 16px; font-size: 14px; }
+
+  /* Thanh danh mục dính: thu nhỏ ảnh tròn */
+  .cat-rail { padding: 8px 0; }
+  .cat-rail .cat-btn { min-width: 76px; }
+  .cat-rail .cat-thumb { width: 46px; height: 46px; }
+  .cat-rail .cat-name { font-size: 10px; }
+
+  /* Khối tiêu đề đỏ của dải tràn viền */
+  .showcase-panel { padding: 32px 20px; }
+  .showcase-panel h2 { font-size: 1.5rem; }
+  .hero h1 { font-size: 1.6rem; }
+  .step-label { display: none; }         /* chỉ giữ icon số bước */
+  .step-line  { margin-bottom: 0; }
+  .cat-icon   { width: 58px; height: 58px; font-size: 1.6rem; }
+  .modal-footer-bar { padding: 14px 16px; }
+  .btn-add-to-cart-modal { min-width: 100%; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   MODAL CHỌN MÓN – tuỳ biến Bootstrap Modal component
+   (markup: .modal > .modal-dialog > .modal-content)
+   ══════════════════════════════════════════════════════════ */
+
+/* Kích thước hộp thoại (ghi đè biến width của Bootstrap Modal) */
+.product-modal-dialog { --bs-modal-width: 860px; }
+
+/* Box modal – ghi đè .modal-content của Bootstrap */
+.product-modal {
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,.3);
+}
+
+/* Nút đóng */
+.modal-close-btn {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--red);
+  color: white;
+  border: none;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10;
+  line-height: 1;
+  transition: background .2s;
+}
+.modal-close-btn:hover { background: var(--red-dark); }
+
+/* Layout 2 cột bên trong modal */
+.modal-left {
+  padding: 32px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid var(--border);
+  min-width: 260px;
+}
+.modal-left .product-img-modal {
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--cream);
+  font-size: 5rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-left .product-img-modal .img-slot {
+  width: 100%; height: 100%; aspect-ratio: auto;
+}
+/* Thư viện ảnh thu nhỏ dưới ảnh chính (mẫu jollibee.com.vn) */
+.modal-thumbs { display: flex; gap: 8px; margin-top: 14px; justify-content: center; }
+.modal-thumb {
+  width: 52px; height: 52px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid var(--border);
+  background: var(--cream);
+  cursor: pointer;
+  padding: 0;
+  transition: border-color var(--t-base) var(--ease);
+}
+.modal-thumb.active { border-color: var(--red); }
+.modal-thumb .img-slot { width: 100%; height: 100%; aspect-ratio: auto; }
+.modal-left .product-img-modal img {
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+/* Badge "Mới" tròn đỏ như trên web thật (Bootstrap .badge + tuỳ biến) */
+.modal-badge-new {
+  background: var(--red);
+  color: white;
+  font-size: 13px;
+  font-weight: 900;
+  width: 52px; height: 52px;
+  padding: 0;
+  border-radius: 50%;
+  align-items: center; justify-content: center;
+  position: absolute;
+  top: 8px; left: 8px;
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+.modal-product-name {
+  font-size: 15px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  text-align: center;
+  margin-top: 16px;
+  color: var(--dark);
+}
+
+/* Cột phải: các options
+   padding-top chừa chỗ cho nút ✕ ở góc trên bên phải */
+.modal-right { padding: 56px 24px 20px; flex: 1; }
+
+/* Mobile: 2 cột xếp dọc → đổi viền phải thành viền dưới */
+@media (max-width: 767.98px) {
+  .modal-left {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    min-width: 0;
+    padding: 24px 16px 16px;
+  }
+  .modal-left .product-img-modal { width: 150px; height: 150px; font-size: 3.5rem; }
+  .modal-right { padding: 16px; }
+  .modal-left { padding-top: 52px; }   /* chừa chỗ nút ✕ khi xếp dọc */
+}
+
+/* Accordion section (CHỌN MÌ / THÊM MÓN)
+   – dùng Bootstrap Accordion, ghi đè token màu cho hợp brand */
+#modalAccordion {
+  --bs-accordion-btn-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23231F20' stroke-width='3'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  --bs-accordion-btn-active-icon: var(--bs-accordion-btn-icon);
+  --bs-accordion-btn-focus-box-shadow: none;
+}
+.modal-section {
+  margin-bottom: 12px;
+  border: none;
+  background: transparent;
+}
+.modal-section-header.accordion-button {
+  background: var(--yellow);
+  color: var(--dark);
+  font-weight: 900;
+  font-size: 15px;
+  padding: 12px 18px;
+  border-radius: 10px 10px 0 0;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: none;
+}
+.modal-section-header.accordion-button.collapsed { border-radius: 10px; }
+.modal-section-body {
+  background: #FDF8F0;
+  border: 1px solid #E8D8B0;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  overflow: hidden;
+}
+
+/* Từng option trong accordion */
+.modal-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background .15s;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+.modal-option:last-child { border-bottom: none; }
+.modal-option:hover { background: rgba(255,197,43,.12); }
+.modal-option.selected { background: rgba(255,197,43,.18); }
+
+.modal-option-img {
+  width: 48px; height: 48px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--cream);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+}
+.modal-option-img img { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; }
+.modal-option-img .img-slot { width: 100%; height: 100%; aspect-ratio: auto; }
+.modal-option-name { flex: 1; font-size: 14px; font-weight: 600; }
+.modal-option-price { font-size: 13px; color: var(--red); font-weight: 700; margin-right: 10px; }
+/* Radio tùy chỉnh màu đỏ */
+.modal-option input[type="radio"] { accent-color: var(--red); width: 18px; height: 18px; }
+.modal-option input[type="checkbox"] { accent-color: var(--red); width: 18px; height: 18px; }
+
+/* Footer modal: số lượng + giá + nút thêm */
+.modal-footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.qty-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 2px solid var(--red);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.qty-bar button {
+  background: var(--red);
+  color: white;
+  border: none;
+  width: 40px; height: 40px;
+  font-size: 20px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: background .15s;
+}
+.qty-bar button:hover { background: var(--red-dark); }
+.qty-bar .qty-display {
+  width: 52px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--dark);
+  border: none;
+  outline: none;
+  background: white;
+}
+.modal-price-display {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--red);
+}
+.modal-price-display span { font-size: 14px; font-weight: 600; }
+.btn-add-to-cart-modal {
+  background: var(--red);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+  flex: 1;
+  min-width: 180px;
+}
+.btn-add-to-cart-modal:hover {
+  background: var(--red-dark);
+  transform: translateY(-1px);
+}
+
+/* ── PRODUCT CARD mới (dùng ảnh, bỏ emoji) ── */
+.product-card .product-img-wrap {
+  position: relative;
+  height: 180px;
+  flex-shrink: 0;
+  background: var(--gray-light);
+  overflow: hidden;
+  cursor: pointer;
+}
+.product-card .product-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform var(--t-slow) var(--ease);
+}
+.product-card:hover .product-img-wrap img { transform: scale(1.05); }
+.product-card .product-img-wrap .img-slot {
+  width: 100%; height: 100%; aspect-ratio: auto;
+}
+/* Badge vị trí */
+.badge-pill {
+  position: absolute;
+  top: 10px; left: 10px;
+  background: var(--red);
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.badge-pill.yellow { background: var(--yellow); color: var(--red); }
+.badge-pill.green  { background: #28a745; color: white; }
+/* Badge hình tròn kiểu jollibee.com.vn (Bootstrap .badge + tuỳ biến) */
+.badge-circle {
+  width: 44px; height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--red);
+  color: white;
+  font-size: 11px;
+  font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  line-height: 1.2;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,.2);
+}
+
+/* Nút "Đặt hàng" trên card */
+.btn-order-card {
+  display: block;
+  width: 100%;
+  background: var(--red);
+  color: white;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: .3px;
+  padding: 10px 0;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background var(--t-base) var(--ease),
+              transform var(--t-fast) var(--ease);
+  text-align: center;
+}
+.btn-order-card:hover {
+  background: var(--red-dark);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ── NỀN NHẸ THEO DANH MỤC ───────────────────────────────
+   Chỉ là nền kem rất nhạt phía sau ảnh, KHÔNG còn gradient đỏ đặc.
+   (DESIGN.md §2.4: vùng nội dung phải sáng để ảnh món nổi lên)
+   ───────────────────────────────────────────────────────── */
+.img-ph-ga       { background: #FDF4E8 !important; }
+.img-ph-burger   { background: #FBF1E4 !important; }
+.img-ph-mi       { background: #FCF0EE !important; }
+.img-ph-trangmiem{ background: #EFF6EF !important; }
+.img-ph-uong     { background: #EDF3FA !important; }
+
+/* ── TRANG LIÊN HỆ & VỀ CHÚNG TÔI ── */
+.contact-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  text-align: center;
+  transition: transform .2s, box-shadow .2s;
+  height: 100%;
+}
+.contact-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+/* Email / địa chỉ dài không được tràn ra khỏi card trên màn hình hẹp */
+.contact-card a,
+.contact-card p { overflow-wrap: anywhere; }
+.contact-icon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--red-light);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+  font-size: 1.8rem;
+}
+.contact-icon svg, .contact-icon i { color: var(--red); }
+
+/* Map placeholder */
+.map-placeholder {
+  background: var(--gray-light);
+  border-radius: var(--radius);
+  height: 300px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  border: 2px dashed var(--border);
+  color: var(--gray);
+}
+
+/* Timeline về chúng tôi */
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 11px; top: 8px; bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--red), var(--yellow));
+}
+.timeline-item { position: relative; margin-bottom: 32px; }
+.timeline-dot {
+  position: absolute;
+  left: -32px; top: 4px;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--red);
+  border: 3px solid white;
+  box-shadow: 0 0 0 3px var(--red);
+}
+.timeline-year {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--red);
+  margin-bottom: 4px;
+}
+.timeline-content h6 { font-weight: 800; margin-bottom: 4px; }
+.timeline-content p  { font-size: 14px; color: var(--gray); margin: 0; }
+
+/* Sticker "Từ năm 1978" trên ảnh thương hiệu (trang Về chúng tôi) */
+.brand-year-sticker {
+  position: absolute;
+  top: -14px; right: -14px;
+  width: 80px; height: 80px;
+  background: var(--yellow);
+  border-radius: 50%;
+  display: flex;
+  align-items: center; justify-content: center;
+  flex-direction: column;
+  font-weight: 900;
+  color: var(--red);
+  box-shadow: 0 4px 16px rgba(0,0,0,.2);
+}
+/* Trên mobile kéo sticker vào trong để không tràn ngang màn hình */
+@media (max-width: 575.98px) {
+  .brand-year-sticker {
+    top: 8px; right: 8px;
+    width: 64px; height: 64px;
+  }
+}
+
+/* Form liên hệ */
+.contact-form-wrap {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+}
+
+/* ── Bỏ caret mặc định Bootstrap, dùng mũi tên SVG nhỏ ── */
+.navbar-nav .dropdown-toggle::after {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-left: 4px;
+  vertical-align: middle;
+  border: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23231F20' stroke-width='3'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat center;
+  content: '';
+}
+.navbar-nav .nav-link.active.dropdown-toggle::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23E31837' stroke-width='3'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+}
+
+/* ── Giá sản phẩm hiện rõ hơn trên card ── */
+.product-price-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 8px 0 4px;
+}
+.product-price {
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--red);
+}
+.product-price-old {
+  font-size: 12px;
+  color: var(--gray);
+  text-decoration: line-through;
+}
+.product-price-from {
+  font-size: 11px;
+  color: var(--gray);
+  font-weight: 600;
+}

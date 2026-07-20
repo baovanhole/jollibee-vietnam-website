@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanh toán – Jollibee Vietnam</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="navbar"></div>
+
+<!-- Stepper -->
+<div class="steps-bar">
+  <div class="step-item done">
+    <div class="step-circle">✓</div>
+    <div class="step-label">Giỏ hàng</div>
+  </div>
+  <div class="step-line done"></div>
+  <div class="step-item active">
+    <div class="step-circle">2</div>
+    <div class="step-label">Thông tin</div>
+  </div>
+  <div class="step-line"></div>
+  <div class="step-item">
+    <div class="step-circle">3</div>
+    <div class="step-label">Thanh toán</div>
+  </div>
+  <div class="step-line"></div>
+  <div class="step-item">
+    <div class="step-circle">4</div>
+    <div class="step-label">Xác nhận</div>
+  </div>
+</div>
+
+<section class="section section-gray">
+  <div class="container">
+    <div class="row g-4">
+
+      <!-- ── FORM THÔNG TIN ── -->
+      <div class="col-lg-7">
+        <div style="background:white;border-radius:var(--radius);padding:28px;border:1px solid var(--border);">
+          <h5 style="font-weight:900;color:var(--dark);margin-bottom:20px;">
+            📍 Thông tin giao hàng
+          </h5>
+
+          <!-- Toggle: Giao hàng / Đến lấy -->
+          <div class="d-flex gap-2 mb-4">
+            <button class="btn btn-red" id="btn-delivery"
+                    onclick="setDeliveryMode('delivery')">
+              🛵 Giao hàng
+            </button>
+            <button class="btn btn-outline-red" id="btn-pickup"
+                    onclick="setDeliveryMode('pickup')">
+              🚶 Đến lấy
+            </button>
+          </div>
+
+          <form id="checkout-form" onsubmit="submitOrder(event)">
+            <!-- Họ tên -->
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Họ và tên <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="fullname"
+                       placeholder="Nguyễn Văn A" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" id="phone"
+                       placeholder="0901 234 567" required pattern="[0-9]{10,11}">
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" id="email"
+                     placeholder="email@example.com">
+            </div>
+
+            <!-- Địa chỉ (ẩn khi Đến lấy) -->
+            <div id="delivery-fields">
+              <div class="mb-3">
+                <label class="form-label">Địa chỉ <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="address"
+                       placeholder="Số nhà, tên đường...">
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                  <label class="form-label">Quận/Huyện</label>
+                  <select class="form-select" id="district">
+                    <option value="">Chọn quận...</option>
+                    <option>Quận 1</option><option>Quận 2</option>
+                    <option>Quận 3</option><option>Quận 4</option>
+                    <option>Quận 5</option><option>Quận 6</option>
+                    <option>Quận 7</option><option>Quận 8</option>
+                    <option>Quận 9</option><option>Quận 10</option>
+                    <option>Quận 11</option><option>Quận 12</option>
+                    <option>Bình Thạnh</option><option>Gò Vấp</option>
+                    <option>Phú Nhuận</option><option>Tân Bình</option>
+                    <option>Tân Phú</option><option>Thủ Đức</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Phường/Xã</label>
+                  <input type="text" class="form-control" id="ward" placeholder="Tên phường">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Thành phố</label>
+                  <input type="text" class="form-control" value="TP. Hồ Chí Minh" readonly
+                         style="background:#f5f5f5;">
+                </div>
+              </div>
+            </div>
+
+            <!-- Ghi chú -->
+            <div class="mb-4">
+              <label class="form-label">Ghi chú cho tài xế / cửa hàng</label>
+              <textarea class="form-control" id="note" rows="2"
+                        placeholder="VD: Gọi trước khi đến, không cho hành..."></textarea>
+            </div>
+
+            <!-- Phương thức thanh toán -->
+            <h5 style="font-weight:900;color:var(--dark);margin-bottom:16px;">
+              💳 Phương thức thanh toán
+            </h5>
+
+            <div class="payment-option selected" onclick="selectPayment(this,'cash')">
+              <input type="radio" name="payment" value="cash" checked>
+              <span style="font-size:1.4rem;">💵</span>
+              <div>
+                <div style="font-weight:700;">Tiền mặt khi nhận hàng</div>
+                <div style="font-size:12px;color:var(--gray);">Thanh toán trực tiếp khi nhận hàng</div>
+              </div>
+            </div>
+
+            <div class="payment-option" onclick="selectPayment(this,'card')">
+              <input type="radio" name="payment" value="card">
+              <span style="font-size:1.4rem;">💳</span>
+              <div>
+                <div style="font-weight:700;">Thẻ ngân hàng / ATM</div>
+                <div style="font-size:12px;color:var(--gray);">Thanh toán qua cổng VNPAY an toàn</div>
+              </div>
+            </div>
+
+            <div class="payment-option" onclick="selectPayment(this,'momo')">
+              <input type="radio" name="payment" value="momo">
+              <span style="font-size:1.4rem;">📱</span>
+              <div>
+                <div style="font-weight:700;">Ví MoMo / ZaloPay</div>
+                <div style="font-size:12px;color:var(--gray);">Quét mã QR thanh toán nhanh</div>
+              </div>
+            </div>
+
+            <!-- Nút đặt hàng -->
+            <button type="submit" class="btn btn-red w-100 btn-lg mt-4"
+                    style="font-size:16px;padding:14px;font-weight:900;">
+              🛒 Đặt hàng ngay
+            </button>
+            <p class="text-center text-muted mt-2" style="font-size:12px;">
+              Bằng cách đặt hàng, bạn đồng ý với
+              <a href="#" style="color:var(--red);">Điều khoản sử dụng</a> của chúng tôi
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <!-- ── TÓM TẮT ĐƠN HÀNG ── -->
+      <div class="col-lg-5">
+        <div class="order-summary">
+          <h5 style="font-weight:900;margin-bottom:16px;">📋 Đơn hàng của bạn</h5>
+
+          <!-- Danh sách sản phẩm -->
+          <div id="order-items">
+            <p class="text-muted text-center">Đang tải...</p>
+          </div>
+
+          <hr>
+
+          <div class="summary-row">
+            <span>Tạm tính:</span>
+            <span id="order-subtotal">0đ</span>
+          </div>
+          <div class="summary-row">
+            <span>Phí giao hàng:</span>
+            <span id="order-ship">15.000đ</span>
+          </div>
+          <div class="summary-row">
+            <strong>Tổng cộng:</strong>
+            <strong class="summary-total" id="order-total">0đ</strong>
+          </div>
+
+          <!-- Thời gian giao -->
+          <div style="background:var(--red-light);border-radius:var(--radius-sm);padding:12px;margin-top:12px;font-size:13px;">
+            ⏱ Dự kiến giao: <strong>20–30 phút</strong><br>
+            📞 Hỗ trợ đặt hàng: <strong style="color:var(--red);">1900-1533</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/components.js"></script>
+<script src="js/main.js"></script>
+<script>
+// Render danh sách trong summary
+function renderOrderSummary() {
+  const items = Cart.getItems();
+  const el    = document.getElementById('order-items');
+
+  if (items.length === 0) {
+    el.innerHTML = '<p class="text-muted text-center">Giỏ hàng trống</p>';
+    return;
+  }
+
+  el.innerHTML = items.map(item => `
+    <div class="d-flex justify-content-between align-items-center mb-2" style="font-size:14px;">
+      <span>${item.icon} ${item.name} <span class="badge bg-secondary">${item.qty}</span></span>
+      <strong style="color:var(--red);">${(item.price*item.qty).toLocaleString('vi-VN')}đ</strong>
+    </div>
+  `).join('');
+
+  const total    = Cart.totalPrice();
+  const shipping = total >= 150000 ? 0 : 15000;
+  document.getElementById('order-subtotal').textContent = total.toLocaleString('vi-VN') + 'đ';
+  document.getElementById('order-ship').textContent     = shipping === 0 ? 'Miễn phí 🎉' : shipping.toLocaleString('vi-VN') + 'đ';
+  document.getElementById('order-total').textContent    = (total + shipping).toLocaleString('vi-VN') + 'đ';
+}
+
+// Chọn phương thức thanh toán
+function selectPayment(el, type) {
+  document.querySelectorAll('.payment-option').forEach(o => {
+    o.classList.remove('selected');
+    o.querySelector('input').checked = false;
+  });
+  el.classList.add('selected');
+  el.querySelector('input').checked = true;
+}
+
+// Toggle giao hàng / đến lấy
+function setDeliveryMode(mode) {
+  const delivFields = document.getElementById('delivery-fields');
+  const btnD = document.getElementById('btn-delivery');
+  const btnP = document.getElementById('btn-pickup');
+
+  if (mode === 'delivery') {
+    delivFields.style.display = 'block';
+    btnD.className = 'btn btn-red';
+    btnP.className = 'btn btn-outline-red';
+  } else {
+    delivFields.style.display = 'none';
+    btnD.className = 'btn btn-outline-red';
+    btnP.className = 'btn btn-red';
+  }
+}
+
+// Submit đơn hàng
+function submitOrder(e) {
+  e.preventDefault();
+
+  const name  = document.getElementById('fullname').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  if (!name || !phone) {
+    Toast.show('⚠️ Vui lòng điền đầy đủ họ tên và số điện thoại!', 3000);
+    return;
+  }
+
+  // Lưu thông tin đơn hàng
+  const order = {
+    id:      'JB' + Date.now(),
+    name, phone,
+    items:   Cart.getItems(),
+    total:   Cart.totalPrice(),
+    payment: document.querySelector('input[name="payment"]:checked').value,
+    time:    new Date().toLocaleString('vi-VN')
+  };
+  localStorage.setItem('jollibee_last_order', JSON.stringify(order));
+
+  Cart.clear();
+  window.location.href = 'xacnhan.html';
+}
+
+renderOrderSummary();
+</script>
+</body>
+</html>

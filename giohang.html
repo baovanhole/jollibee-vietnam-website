@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giỏ hàng – Jollibee Vietnam</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="navbar"></div>
+
+<!-- Breadcrumb -->
+<div style="background:white;border-bottom:1px solid var(--border);padding:10px 0;">
+  <div class="container">
+    <small class="text-muted">
+      <a href="index.html" style="color:var(--red);">Trang chủ</a>
+      › <a href="thucdon.html" style="color:var(--red);">Thực đơn</a>
+      › Giỏ hàng
+    </small>
+  </div>
+</div>
+
+<!-- ── STEPPER (thanh bước đặt hàng) ── -->
+<div class="steps-bar">
+  <div class="step-item active">
+    <div class="step-circle">🛒</div>
+    <div class="step-label">Giỏ hàng</div>
+  </div>
+  <div class="step-line"></div>
+  <div class="step-item">
+    <div class="step-circle">2</div>
+    <div class="step-label">Thông tin</div>
+  </div>
+  <div class="step-line"></div>
+  <div class="step-item">
+    <div class="step-circle">3</div>
+    <div class="step-label">Thanh toán</div>
+  </div>
+  <div class="step-line"></div>
+  <div class="step-item">
+    <div class="step-circle">4</div>
+    <div class="step-label">Xác nhận</div>
+  </div>
+</div>
+
+
+<section class="section section-gray">
+  <div class="container">
+    <h1 style="font-size:1.6rem;font-weight:900;color:var(--dark);margin-bottom:24px;">
+      🛒 Giỏ hàng của bạn
+    </h1>
+
+    <div class="row g-4">
+
+      <!-- ── CỘT TRÁI: Danh sách sản phẩm ── -->
+      <div class="col-lg-8">
+
+        <!-- Thông báo giỏ trống -->
+        <div id="cart-empty" style="display:none;" class="text-center py-5">
+          <div style="font-size:4rem;">🛒</div>
+          <h4 class="mt-3 text-muted">Giỏ hàng đang trống</h4>
+          <p class="text-muted">Hãy thêm món ăn yêu thích của bạn!</p>
+          <a href="thucdon.html" class="btn btn-red btn-lg mt-2">Xem thực đơn</a>
+        </div>
+
+        <!-- Danh sách món trong giỏ (JS render) -->
+        <div id="cart-items"></div>
+
+        <!-- Nhập mã khuyến mãi -->
+        <div id="promo-section" class="mt-3" style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:16px;">
+          <h6 style="font-weight:800;">🏷 Mã khuyến mãi</h6>
+          <div class="input-group">
+            <input type="text" id="promo-input" class="form-control"
+                   placeholder="Nhập mã khuyến mãi (thử: JOLLIBEE20)">
+            <button class="btn btn-red" onclick="applyPromo()">Áp dụng</button>
+          </div>
+          <div id="promo-result" class="mt-2"></div>
+        </div>
+
+        <!-- Link quay lại -->
+        <div class="mt-3">
+          <a href="thucdon.html" class="text-decoration-none" style="color:var(--red);font-weight:700;">
+            ← Tiếp tục mua sắm
+          </a>
+        </div>
+      </div>
+
+      <!-- ── CỘT PHẢI: Tóm tắt đơn hàng ── -->
+      <div class="col-lg-4" id="cart-summary" style="display:none;">
+        <div class="order-summary">
+          <h5 style="font-weight:900; color:var(--dark); margin-bottom:16px;">
+            Tóm tắt đơn hàng
+          </h5>
+
+          <div class="summary-row">
+            <span>Tạm tính:</span>
+            <span id="summary-price">0đ</span>
+          </div>
+          <div class="summary-row">
+            <span>Phí giao hàng:</span>
+            <span id="summary-ship">15.000đ</span>
+          </div>
+          <div class="summary-row" id="discount-row" style="display:none;color:green;">
+            <span>Giảm giá (JOLLIBEE20):</span>
+            <span id="summary-discount" style="color:green;">-0đ</span>
+          </div>
+          <div class="summary-row" style="border-bottom:2px solid var(--red)!important;">
+            <strong>Tổng cộng:</strong>
+            <strong class="summary-total" id="summary-total">0đ</strong>
+          </div>
+
+          <!-- Thông báo giao hàng -->
+          <div style="background:var(--red-light);border-radius:var(--radius-sm);padding:12px;margin:14px 0;font-size:13px;color:var(--red);">
+            ✅ <strong>Giao hàng miễn phí</strong> đơn từ 150.000đ<br>
+            ⏱ Dự kiến giao: <strong>20–30 phút</strong>
+          </div>
+
+          <!-- Nút thanh toán -->
+          <a href="thanhtoan.html" class="btn btn-red w-100 btn-lg"
+             style="font-size:16px;padding:14px;" id="checkout-btn">
+            Tiến hành thanh toán →
+          </a>
+
+          <!-- Phương thức thanh toán hint -->
+          <div class="mt-3 text-center" style="font-size:12px; color:var(--gray);">
+            Chấp nhận: 💵 Tiền mặt &nbsp; 💳 Thẻ ATM &nbsp; 📱 MoMo &nbsp; 🏦 Chuyển khoản
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Gợi ý thêm món -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Có thể bạn cũng thích</h2>
+    <div class="row g-3">
+      <div class="col-6 col-md-3">
+        <div class="product-card">
+          <div class="product-img img-ph-trangmiem">
+            <!-- ẢNH: img/products/tm-02.jpg · 800×800 -->
+            <div class="img-slot">
+              <img src="img/products/tm-02.jpg" alt="Khoai Tây Chiên (M)">
+              <span class="img-slot__hint"><span class="ph-icon">🍟</span>
+                <b>tm-02.jpg</b><span class="ph-size">800×800</span></span>
+            </div>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Khoai Tây Chiên (M)</div>
+            <div class="product-price">22.000đ</div>
+            <button class="btn-add-cart"
+              onclick="Cart.add({id:'tm-02',name:'Khoai Tây Chiên (M)',price:22000,icon:'🍟'})">
+              + Thêm vào giỏ
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="product-card">
+          <div class="product-img img-ph-trangmiem">
+            <!-- ẢNH: img/products/tm-01.jpg · 800×800 -->
+            <div class="img-slot">
+              <img src="img/products/tm-01.jpg" alt="Halo-Halo">
+              <span class="img-slot__hint"><span class="ph-icon">🍦</span>
+                <b>tm-01.jpg</b><span class="ph-size">800×800</span></span>
+            </div>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Halo-Halo</div>
+            <div class="product-price">35.000đ</div>
+            <button class="btn-add-cart"
+              onclick="Cart.add({id:'tm-01',name:'Halo-Halo',price:35000,icon:'🍦'})">
+              + Thêm vào giỏ
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="product-card">
+          <div class="product-img img-ph-uong">
+            <!-- ẢNH: img/products/uong-02.jpg · 800×800 -->
+            <div class="img-slot">
+              <img src="img/products/uong-02.jpg" alt="Trà Chanh Hạt Chia">
+              <span class="img-slot__hint"><span class="ph-icon">🍋</span>
+                <b>uong-02.jpg</b><span class="ph-size">800×800</span></span>
+            </div>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Trà Chanh Hạt Chia</div>
+            <div class="product-price">25.000đ</div>
+            <button class="btn-add-cart"
+              onclick="Cart.add({id:'uong-02',name:'Trà Chanh Hạt Chia',price:25000,icon:'🍋'})">
+              + Thêm vào giỏ
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="product-card">
+          <div class="product-img img-ph-uong">
+            <!-- ẢNH: img/products/uong-01.jpg · 800×800 -->
+            <div class="img-slot">
+              <img src="img/products/uong-01.jpg" alt="Coca-Cola (M)">
+              <span class="img-slot__hint"><span class="ph-icon">🥤</span>
+                <b>uong-01.jpg</b><span class="ph-size">800×800</span></span>
+            </div>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Coca-Cola (M)</div>
+            <div class="product-price">18.000đ</div>
+            <button class="btn-add-cart"
+              onclick="Cart.add({id:'uong-01',name:'Coca-Cola (M)',price:18000,icon:'🥤'})">
+              + Thêm vào giỏ
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/components.js"></script>
+<script src="js/main.js"></script>
+<script>
+// Áp dụng mã khuyến mãi
+let promoApplied = false;
+
+function applyPromo() {
+  const code  = document.getElementById('promo-input').value.trim().toUpperCase();
+  const result = document.getElementById('promo-result');
+
+  if (code === 'JOLLIBEE20') {
+    promoApplied = true;
+    result.innerHTML = '<span style="color:green;font-weight:700;">✅ Áp dụng thành công! Giảm 20.000đ</span>';
+
+    // Cập nhật discount trong summary
+    const total      = Cart.totalPrice();
+    const shipping   = total >= 150000 ? 0 : 15000;
+    const discount   = 20000;
+    const grandTotal = total + shipping - discount;
+
+    document.getElementById('discount-row').style.display = 'flex';
+    document.getElementById('summary-discount').textContent = '-20.000đ';
+    document.getElementById('summary-total').textContent =
+      grandTotal.toLocaleString('vi-VN') + 'đ';
+
+    Toast.show('🎉 Mã JOLLIBEE20 đã được áp dụng!');
+  } else if (code === '') {
+    result.innerHTML = '<span class="text-danger">Vui lòng nhập mã khuyến mãi</span>';
+  } else {
+    result.innerHTML = '<span class="text-danger">❌ Mã không hợp lệ hoặc đã hết hạn</span>';
+  }
+}
+
+// Enter để áp dụng mã
+document.getElementById('promo-input')
+  .addEventListener('keydown', e => { if (e.key === 'Enter') applyPromo(); });
+</script>
+</body>
+</html>

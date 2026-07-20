@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thực đơn – Jollibee Vietnam</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="navbar"></div>
+
+<!-- Breadcrumb -->
+<div style="background:white;border-bottom:1px solid var(--border);padding:10px 0;">
+  <div class="container">
+    <small class="text-muted">
+      <a href="index.html" style="color:var(--red);">Trang chủ</a> › Thực đơn
+    </small>
+  </div>
+</div>
+
+<!-- Tiêu đề -->
+<div style="background:white;padding:24px 0 20px;">
+  <div class="container">
+    <h1 style="font-size:2rem;font-weight:900;color:var(--red);margin:0;">Thực đơn</h1>
+    <p class="text-muted mb-0">Chọn món yêu thích của bạn rồi đặt hàng ngay!</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     THANH DANH MỤC DÍNH – dùng ẢNH món thật thay vì emoji
+     (DESIGN.md §6.2 – mẫu từ jollibee.com.vn: thanh danh mục
+      dính lại ở đỉnh khi cuộn, luôn đổi danh mục được)
+     ══════════════════════════════════════════════════════════ -->
+<div class="cat-rail" id="cat-tabs">
+  <div class="container">
+    <div class="cat-rail__inner">
+
+      <button class="cat-btn active" data-cat="all">
+        <span class="cat-thumb">
+          <!-- ẢNH: img/categories/all.jpg · 200×200 -->
+          <span class="img-slot img-slot--xs">
+            <img src="img/categories/all.jpg" alt="Tất cả món">
+            <span class="img-slot__hint"><span class="ph-icon">🍽</span></span>
+          </span>
+        </span>
+        <span class="cat-name">Tất cả</span>
+      </button>
+
+      <button class="cat-btn" data-cat="ga">
+        <span class="cat-thumb">
+          <!-- ẢNH: img/categories/ga.jpg · 200×200 -->
+          <span class="img-slot img-slot--xs">
+            <img src="img/categories/ga.jpg" alt="Gà rán">
+            <span class="img-slot__hint"><span class="ph-icon">🍗</span></span>
+          </span>
+        </span>
+        <span class="cat-name">Gà rán</span>
+      </button>
+
+      <button class="cat-btn" data-cat="burger">
+        <span class="cat-thumb">
+          <!-- ẢNH: img/categories/burger.jpg · 200×200 -->
+          <span class="img-slot img-slot--xs">
+            <img src="img/categories/burger.jpg" alt="Burger và cơm">
+            <span class="img-slot__hint"><span class="ph-icon">🍔</span></span>
+          </span>
+        </span>
+        <span class="cat-name">Burger/Cơm</span>
+      </button>
+
+      <button class="cat-btn" data-cat="mi">
+        <span class="cat-thumb">
+          <!-- ẢNH: img/categories/mi.jpg · 200×200 -->
+          <span class="img-slot img-slot--xs">
+            <img src="img/categories/mi.jpg" alt="Mì Ý">
+            <span class="img-slot__hint"><span class="ph-icon">🍝</span></span>
+          </span>
+        </span>
+        <span class="cat-name">Mì Ý</span>
+      </button>
+
+      <button class="cat-btn" data-cat="trangmiem">
+        <span class="cat-thumb">
+          <!-- ẢNH: img/categories/trangmiem.jpg · 200×200 -->
+          <span class="img-slot img-slot--xs">
+            <img src="img/categories/trangmiem.jpg" alt="Tráng miệng">
+            <span class="img-slot__hint"><span class="ph-icon">🍦</span></span>
+          </span>
+        </span>
+        <span class="cat-name">Tráng miệng</span>
+      </button>
+
+      <button class="cat-btn" data-cat="uong">
+        <span class="cat-thumb">
+          <!-- ẢNH: img/categories/uong.jpg · 200×200 -->
+          <span class="img-slot img-slot--xs">
+            <img src="img/categories/uong.jpg" alt="Đồ uống">
+            <span class="img-slot__hint"><span class="ph-icon">🥤</span></span>
+          </span>
+        </span>
+        <span class="cat-name">Đồ uống</span>
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     CHỌN HÌNH THỨC NHẬN HÀNG + ĐỊA CHỈ (DESIGN.md §1.2)
+     ══════════════════════════════════════════════════════════ -->
+<section class="order-bar">
+  <div class="container">
+    <div class="text-center mb-3">
+      <div class="mode-switch" role="group" aria-label="Hình thức nhận hàng">
+        <button type="button" class="mode-btn active" data-mode="delivery">🛵 Giao hàng tận nơi</button>
+        <button type="button" class="mode-btn" data-mode="pickup">🏪 Đặt đến lấy</button>
+      </div>
+    </div>
+    <div class="address-bar">
+      <div class="input-group">
+        <label for="addr-input" class="visually-hidden">Địa chỉ giao hàng</label>
+        <input type="text" id="addr-input" class="form-control"
+               placeholder="Nhập địa chỉ giao hàng của bạn...">
+        <button class="btn btn-red" type="button" onclick="findStore()" aria-label="Tìm">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+      </div>
+      <p class="order-bar__note" id="addr-note">
+        Giao trong 20–30 phút · Miễn phí giao hàng cho đơn từ 150.000đ
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Danh sách sản phẩm -->
+<section class="section section-gray">
+  <div class="container">
+    <!-- Search + sort -->
+    <div class="row mb-4 g-2">
+      <div class="col-md-5">
+        <div class="input-group">
+          <span class="input-group-text" style="background:var(--red-light);">
+            <!-- Search icon SVG -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E31837" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </span>
+          <input type="text" id="search-input" class="form-control"
+                 placeholder="Tìm trong thực đơn...">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <select class="form-select" id="sort-select">
+          <option value="default">Mặc định</option>
+          <option value="price-asc">Giá tăng dần</option>
+          <option value="price-desc">Giá giảm dần</option>
+          <option value="name">Tên A→Z</option>
+        </select>
+      </div>
+      <div class="col-md-4 d-flex align-items-center">
+        <small class="text-muted" id="result-count"></small>
+      </div>
+    </div>
+
+    <div class="row g-3" id="product-grid"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     MODAL CHỌN MÓN – Bootstrap Modal component (như hình jollibee.com.vn)
+     ══════════════════════════════════════════════════════════ -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg product-modal-dialog">
+    <div class="modal-content product-modal">
+
+      <!-- Nút đóng -->
+      <button type="button" class="modal-close-btn" data-bs-dismiss="modal" aria-label="Đóng">✕</button>
+
+      <div class="modal-body p-0">
+        <div class="d-flex flex-column flex-md-row" style="min-height:420px;">
+
+          <!-- Cột trái: ảnh -->
+          <div class="modal-left" style="min-width:240px;">
+            <div class="position-relative" style="display:inline-block;">
+              <!-- Ảnh món ăn (placeholder gradient) -->
+              <div class="product-img-modal img-ph-ga" id="modal-img-wrap">
+                <!-- ẢNH: img/products/<mã món>.jpg · 800×800 (JS tự điền) -->
+              </div>
+              <!-- Badge "Mới" / "Bán chạy" -->
+              <span class="badge modal-badge-new" id="modal-badge" style="display:none;">Mới</span>
+            </div>
+            <div class="modal-product-name" id="modal-name">TÊN MÓN</div>
+
+            <!-- Thư viện ảnh thu nhỏ (DESIGN.md §5.3 – mẫu jollibee.com.vn) -->
+            <div class="modal-thumbs" id="modal-thumbs"><!-- JS tự điền --></div>
+          </div>
+
+          <!-- Cột phải: chọn options -->
+          <div class="modal-right d-flex flex-column flex-grow-1">
+
+            <!-- Bootstrap Accordion: CHỌN SIZE / THÊM MÓN -->
+            <div class="accordion" id="modalAccordion">
+
+              <div class="accordion-item modal-section" id="section-size">
+                <h2 class="accordion-header">
+                  <button class="accordion-button modal-section-header" type="button"
+                          data-bs-toggle="collapse" data-bs-target="#size-body">
+                    <span id="modal-size-label">CHỌN MÓN</span>
+                  </button>
+                </h2>
+                <div id="size-body" class="accordion-collapse collapse show">
+                  <div class="modal-section-body" id="size-body-content">
+                    <!-- Điền bởi JS -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item modal-section" id="section-addon">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed modal-section-header" type="button"
+                          data-bs-toggle="collapse" data-bs-target="#addon-body">
+                    <span>THÊM MÓN</span>
+                  </button>
+                </h2>
+                <div id="addon-body" class="accordion-collapse collapse">
+                  <div class="modal-section-body" id="addon-body-content">
+                    <!-- Điền bởi JS -->
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Spacer -->
+            <div class="flex-grow-1"></div>
+
+            <!-- Footer: số lượng + giá + nút thêm -->
+            <div class="modal-footer-bar">
+              <!-- Số lượng -->
+              <div class="qty-bar">
+                <button onclick="changeModalQty(-1)">−</button>
+                <div class="qty-display" id="modal-qty">1</div>
+                <button onclick="changeModalQty(+1)">+</button>
+              </div>
+              <!-- Giá tổng -->
+              <div class="modal-price-display" id="modal-total-price">
+                0 <span>đ</span>
+              </div>
+              <!-- Nút thêm vào giỏ -->
+              <button class="btn-add-to-cart-modal" onclick="addModalToCart()">
+                Thêm vào giỏ hàng
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/components.js"></script>
+<script src="js/main.js"></script>
+<script>
+// ════════════════════════════════════════════════════════════
+// DỮ LIỆU SẢN PHẨM
+// sizes: các lựa chọn kích cỡ/loại
+// addons: món thêm kèm
+// ════════════════════════════════════════════════════════════
+const PRODUCTS = [
+  /* ── GÀ RÁN ── */
+  {
+    id:'ga-01', cat:'ga', badge:'hot',
+    name:'Chickenjoy 1 Miếng',
+    desc:'Gà rán giòn vàng ươm, thấm vị đặc trưng Jollibee',
+    basePrice:39000, icon:'🍗', imgClass:'img-ph-ga',
+    sizes:[
+      {id:'s1', name:'1 Miếng Gà',         price:0},
+      {id:'s2', name:'2 Miếng Gà (Up)',     price:30000},
+    ],
+    addons:[
+      {id:'a1', name:'Khoai Tây Chiên (M)', price:22000, icon:'🍟'},
+      {id:'a2', name:'Coca-Cola (M)',        price:18000, icon:'🥤'},
+      {id:'a3', name:'Sốt Tương Ớt',        price:5000,  icon:'🌶️'},
+    ]
+  },
+  {
+    id:'ga-02', cat:'ga', badge:'hot',
+    name:'Combo Chickenjoy Đôi',
+    desc:'2 miếng gà rán + khoai chiên size M + nước uống',
+    basePrice:79000, icon:'🍗', imgClass:'img-ph-ga',
+    sizes:[
+      {id:'s1', name:'Combo Đôi',        price:0},
+      {id:'s2', name:'Combo Đôi + Up',   price:20000},
+    ],
+    addons:[
+      {id:'a1', name:'Thêm 1 miếng gà',  price:39000, icon:'🍗'},
+      {id:'a2', name:'Đổi nước size L',   price:8000,  icon:'🥤'},
+    ]
+  },
+  {
+    id:'ga-03', cat:'ga', badge:'new',
+    name:'Gà Sốt Cay',
+    desc:'Gà rán phủ sốt cay đặc biệt, thơm ngon mới nhất',
+    basePrice:45000, icon:'🌶️', imgClass:'img-ph-ga',
+    sizes:[
+      {id:'s1', name:'Gà Sốt Cay vừa',   price:0},
+      {id:'s2', name:'Gà Sốt Cay lớn',   price:10000},
+    ],
+    addons:[
+      {id:'a1', name:'Khoai Tây Chiên',   price:22000, icon:'🍟'},
+      {id:'a2', name:'Nước Sprite (M)',    price:18000, icon:'🥤'},
+    ]
+  },
+  {
+    id:'ga-04', cat:'ga', badge:'hot',
+    name:'Combo Gia Đình 8 Miếng',
+    desc:'8 miếng gà đủ cho cả gia đình, tiết kiệm hơn mua lẻ',
+    basePrice:189000, icon:'🍗', imgClass:'img-ph-ga',
+    sizes:[
+      {id:'s1', name:'8 miếng gà',           price:0},
+      {id:'s2', name:'8 miếng + 4 khoai (Up)',price:60000},
+    ],
+    addons:[
+      {id:'a1', name:'4 lon Coca-Cola',    price:60000, icon:'🥤'},
+      {id:'a2', name:'Sốt BBQ',            price:5000,  icon:'🌶️'},
+    ]
+  },
+
+  /* ── BURGER / CƠM ── */
+  {
+    id:'burger-01', cat:'burger', badge:null,
+    name:'Yumburger Classic',
+    desc:'Burger bò kẹp phô mai và rau tươi giòn',
+    basePrice:39000, icon:'🍔', imgClass:'img-ph-burger',
+    sizes:[
+      {id:'s1', name:'Yumburger Classic',   price:0},
+      {id:'s2', name:'Double Yumburger',    price:15000},
+    ],
+    addons:[
+      {id:'a1', name:'Khoai Tây Chiên',     price:22000, icon:'🍟'},
+      {id:'a2', name:'Coca-Cola (M)',        price:18000, icon:'🥤'},
+    ]
+  },
+  {
+    id:'burger-02', cat:'burger', badge:null,
+    name:'Cơm Gà Nướng',
+    desc:'Cơm trắng kèm gà nướng sốt đặc biệt Jollibee',
+    basePrice:59000, icon:'🍚', imgClass:'img-ph-burger',
+    sizes:[
+      {id:'s1', name:'Cơm Gà Nướng',        price:0},
+      {id:'s2', name:'Cơm + Thêm 1 miếng gà',price:35000},
+    ],
+    addons:[
+      {id:'a1', name:'Canh rau',             price:12000, icon:'🥣'},
+      {id:'a2', name:'Trà đá',               price:10000, icon:'🍵'},
+    ]
+  },
+
+  /* ── MÌ Ý ── */
+  {
+    id:'mi-01', cat:'mi', badge:'new',
+    name:'Mì Ý Sốt Cay vừa',
+    desc:'Spaghetti sốt cay kiểu Jollibee – mới ra mắt',
+    basePrice:40000, icon:'🍝', imgClass:'img-ph-mi',
+    sizes:[
+      {id:'s1', name:'Mì Ý Sốt Cay vừa',      price:0},
+      {id:'s2', name:'Mì Ý Sốt Cay lớn (Up)',  price:10000},
+    ],
+    addons:[
+      {id:'a1', name:'Khoai Tây Chiên (M)',    price:22000, icon:'🍟'},
+      {id:'a2', name:'Coca-Cola (M)',           price:18000, icon:'🥤'},
+      {id:'a3', name:'Thêm phô mai',           price:8000,  icon:'🧀'},
+    ]
+  },
+  {
+    id:'mi-02', cat:'mi', badge:null,
+    name:'Mì Ý Sốt Bò Bằm',
+    desc:'Mì spaghetti sốt bolognese đặc trưng Jollibee',
+    basePrice:55000, icon:'🍝', imgClass:'img-ph-mi',
+    sizes:[
+      {id:'s1', name:'Mì Ý Sốt Bò Bằm',       price:0},
+      {id:'s2', name:'Mì Ý Sốt Bò Bằm lớn',   price:12000},
+    ],
+    addons:[
+      {id:'a1', name:'Bánh mì nướng',           price:10000, icon:'🥖'},
+      {id:'a2', name:'Nước cam tươi',           price:25000, icon:'🍊'},
+    ]
+  },
+
+  /* ── TRÁNG MIỆNG ── */
+  {
+    id:'tm-01', cat:'trangmiem', badge:'new',
+    name:'Halo-Halo',
+    desc:'Tráng miệng đặc trưng Philippines mát lạnh',
+    basePrice:35000, icon:'🍦', imgClass:'img-ph-trangmiem',
+    sizes:[
+      {id:'s1', name:'Halo-Halo thường',        price:0},
+      {id:'s2', name:'Halo-Halo lớn (Up)',      price:12000},
+    ],
+    addons:[]
+  },
+  {
+    id:'tm-02', cat:'trangmiem', badge:null,
+    name:'Khoai Tây Chiên (M)',
+    desc:'Khoai tây chiên vàng giòn rụm, đậm vị',
+    basePrice:22000, icon:'🍟', imgClass:'img-ph-trangmiem',
+    sizes:[
+      {id:'s1', name:'Size M',  price:0},
+      {id:'s2', name:'Size L',  price:8000},
+    ],
+    addons:[
+      {id:'a1', name:'Sốt BBQ',         price:5000, icon:'🌶️'},
+      {id:'a2', name:'Sốt Phô Mai',     price:5000, icon:'🧀'},
+    ]
+  },
+  {
+    id:'tm-03', cat:'trangmiem', badge:null,
+    name:'Bánh Sundae Chocolate',
+    desc:'Kem vanilla phủ sốt chocolate thơm ngon',
+    basePrice:25000, icon:'🍨', imgClass:'img-ph-trangmiem',
+    sizes:[
+      {id:'s1', name:'Sundae thường',   price:0},
+      {id:'s2', name:'Sundae đôi',      price:15000},
+    ],
+    addons:[]
+  },
+
+  /* ── ĐỒ UỐNG ── */
+  {
+    id:'uong-01', cat:'uong', badge:null,
+    name:'Coca-Cola',
+    desc:'Nước ngọt có ga mát lạnh, giải khát hoàn hảo',
+    basePrice:18000, icon:'🥤', imgClass:'img-ph-uong',
+    sizes:[
+      {id:'s1', name:'Size M',  price:0},
+      {id:'s2', name:'Size L',  price:6000},
+    ],
+    addons:[]
+  },
+  {
+    id:'uong-02', cat:'uong', badge:'new',
+    name:'Trà Chanh Hạt Chia',
+    desc:'Trà chanh chua ngọt với hạt chia thanh mát',
+    basePrice:25000, icon:'🍋', imgClass:'img-ph-uong',
+    sizes:[
+      {id:'s1', name:'Trà Chanh Hạt Chia',        price:0},
+      {id:'s2', name:'Trà Chanh Hạt Chia lớn',    price:8000},
+    ],
+    addons:[]
+  },
+  {
+    id:'uong-03', cat:'uong', badge:null,
+    name:'Nước Cam Tươi Ép',
+    desc:'Cam tươi nguyên chất ép tại chỗ, giàu vitamin C',
+    basePrice:30000, icon:'🍊', imgClass:'img-ph-uong',
+    sizes:[
+      {id:'s1', name:'Cam Tươi (M)',  price:0},
+      {id:'s2', name:'Cam Tươi (L)',  price:10000},
+    ],
+    addons:[]
+  },
+];
+
+// ════════════════════════════════════════════════════════════
+// RENDER PRODUCT GRID
+// ════════════════════════════════════════════════════════════
+function renderProducts(list) {
+  const grid = document.getElementById('product-grid');
+  document.getElementById('result-count').textContent =
+    list.length ? `Hiển thị ${list.length} món` : '';
+
+  if (!list.length) {
+    grid.innerHTML = `
+      <div class="col-12 text-center py-5">
+        <div style="font-size:3rem;">🔍</div>
+        <h5 class="text-muted mt-3">Không tìm thấy món phù hợp</h5>
+        <button class="btn btn-red mt-3" onclick="resetFilter()">Xem tất cả</button>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = list.map(p => {
+    const badgeHTML =
+      p.badge==='hot' ? '<span class="badge badge-circle position-absolute top-0 start-0 m-2">Bán<br>chạy</span>'
+    : p.badge==='new' ? '<span class="badge badge-circle position-absolute top-0 start-0 m-2">Mới</span>'
+    : '';
+
+    return `
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="product-card h-100">
+
+        <!-- Ảnh (click mở modal) — ẢNH: img/products/${p.id}.jpg · 800×800 -->
+        <div class="product-img-wrap ${p.imgClass}" onclick="openModal('${p.id}')">
+          ${ImageSlots.html(`img/products/${p.id}.jpg`, p.name, '800×800', p.icon)}
+          ${badgeHTML}
+        </div>
+
+        <div class="product-body d-flex flex-column flex-grow-1">
+          <div class="product-name">${p.name}</div>
+          <div class="product-desc">${p.desc}</div>
+          <div class="mt-auto product-price-wrap">
+            <span class="product-price-from">Từ</span>
+            <span class="product-price">${p.basePrice.toLocaleString('vi-VN')}đ</span>
+          </div>
+          <!-- NÚT ĐẶT HÀNG mở modal -->
+          <button class="btn-order-card" onclick="openModal('${p.id}')">
+            Đặt hàng
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  ImageSlots.init(grid);   // bật khung gợi ý cho ảnh vừa render
+}
+
+// ════════════════════════════════════════════════════════════
+// FILTER & SORT
+// ════════════════════════════════════════════════════════════
+let currentCat='all', currentSort='default', currentQ='';
+
+function applyFilter() {
+  let list=[...PRODUCTS];
+  if(currentCat!=='all')  list=list.filter(p=>p.cat===currentCat);
+  if(currentQ)            list=list.filter(p=>p.name.toLowerCase().includes(currentQ.toLowerCase())||p.desc.toLowerCase().includes(currentQ.toLowerCase()));
+  if(currentSort==='price-asc')  list.sort((a,b)=>a.basePrice-b.basePrice);
+  if(currentSort==='price-desc') list.sort((a,b)=>b.basePrice-a.basePrice);
+  if(currentSort==='name')       list.sort((a,b)=>a.name.localeCompare(b.name));
+  renderProducts(list);
+}
+// Bật danh mục đang chọn trên thanh rail
+function setActiveCat(cat){
+  document.querySelectorAll('.cat-btn').forEach(b=>
+    b.classList.toggle('active', b.dataset.cat === cat));
+}
+
+function resetFilter(){
+  currentCat='all'; currentQ='';
+  document.getElementById('search-input').value='';
+  setActiveCat('all');
+  applyFilter();
+}
+
+document.querySelectorAll('.cat-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    currentCat = btn.dataset.cat;
+    setActiveCat(currentCat);
+    applyFilter();
+  });
+});
+document.getElementById('search-input').addEventListener('input',e=>{currentQ=e.target.value;applyFilter();});
+document.getElementById('sort-select').addEventListener('change',e=>{currentSort=e.target.value;applyFilter();});
+
+// URL params
+const urlP=new URLSearchParams(window.location.search);
+if(urlP.get('cat')){const b=document.querySelector(`[data-cat="${urlP.get('cat')}"]`);if(b)b.click();}
+if(urlP.get('q')){currentQ=urlP.get('q');document.getElementById('search-input').value=currentQ;}
+applyFilter();
+
+// ════════════════════════════════════════════════════════════
+// MODAL CHỌN MÓN
+// ════════════════════════════════════════════════════════════
+let modalProduct = null;   // sản phẩm đang chọn
+let modalQty     = 1;
+let selectedSize = null;   // id size đang chọn
+let selectedAddons = [];   // mảng id addon đã check
+
+// Instance Bootstrap Modal (dùng chung cho openModal/closeModal)
+const productModalEl = document.getElementById('productModal');
+const productModal    = new bootstrap.Modal(productModalEl);
+
+function openModal(productId) {
+  modalProduct   = PRODUCTS.find(p=>p.id===productId);
+  if(!modalProduct) return;
+
+  modalQty       = 1;
+  selectedSize   = modalProduct.sizes[0]?.id || null;
+  selectedAddons = [];
+
+  // Điền tên & ảnh chính
+  document.getElementById('modal-name').textContent = modalProduct.name.toUpperCase();
+
+  const imgWrap = document.getElementById('modal-img-wrap');
+  imgWrap.className = `product-img-modal ${modalProduct.imgClass}`;
+  imgWrap.innerHTML = ImageSlots.html(
+    `img/products/${modalProduct.id}.jpg`, modalProduct.name, '800×800', modalProduct.icon);
+
+  // Thư viện ảnh thu nhỏ: ảnh chính + 2 góc chụp phụ
+  const thumbs = document.getElementById('modal-thumbs');
+  thumbs.innerHTML = ['', '-2', '-3'].map((suffix, i) => `
+    <button type="button" class="modal-thumb ${i === 0 ? 'active' : ''}"
+            onclick="pickThumb(this, 'img/products/${modalProduct.id}${suffix}.jpg')"
+            aria-label="Ảnh ${i + 1}">
+      ${ImageSlots.html(`img/products/${modalProduct.id}${suffix}.jpg`,
+                        modalProduct.name, '800×800', modalProduct.icon, 'img-slot--xs')}
+    </button>`).join('');
+
+  // Badge
+  const badgeEl = document.getElementById('modal-badge');
+  if(modalProduct.badge==='new'){badgeEl.textContent='Mới';badgeEl.style.display='inline-flex';}
+  else if(modalProduct.badge==='hot'){badgeEl.textContent='Hot';badgeEl.style.display='inline-flex';}
+  else badgeEl.style.display='none';
+
+  // Tiêu đề accordion SIZE
+  document.getElementById('modal-size-label').textContent =
+    modalProduct.cat==='mi' ? 'CHỌN MÌ' :
+    modalProduct.cat==='ga' ? 'CHỌN GÀ' :
+    modalProduct.cat==='uong'? 'CHỌN SIZE' : 'CHỌN LOẠI';
+
+  // Render sizes
+  const sizeBody = document.getElementById('size-body-content');
+  sizeBody.innerHTML = modalProduct.sizes.map((s,i) => `
+    <label class="modal-option ${i===0?'selected':''}" id="opt-${s.id}">
+      <div class="modal-option-img ${modalProduct.imgClass}">
+        ${ImageSlots.html(`img/products/${modalProduct.id}.jpg`, s.name,
+                          '800×800', modalProduct.icon, 'img-slot--xs')}
+      </div>
+      <span class="modal-option-name">${s.name}</span>
+      ${s.price>0?`<span class="modal-option-price">+ ${s.price.toLocaleString('vi-VN')} đ</span>`:''}
+      <input type="radio" name="modal-size" value="${s.id}" ${i===0?'checked':''} onchange="selectSize('${s.id}')">
+    </label>
+  `).join('');
+
+  // Render addons
+  const addonBody = document.getElementById('addon-body-content');
+  if(modalProduct.addons.length){
+    addonBody.innerHTML = modalProduct.addons.map(a => `
+      <label class="modal-option" id="addon-${a.id}">
+        <div class="modal-option-img">
+          ${ImageSlots.html(`img/products/addon-${ImageSlots.slug(a.name)}.jpg`,
+                            a.name, '200×200', a.icon, 'img-slot--xs')}
+        </div>
+        <span class="modal-option-name">${a.name}</span>
+        <span class="modal-option-price">+ ${a.price.toLocaleString('vi-VN')}đ</span>
+        <input type="checkbox" name="addon-${a.id}" value="${a.id}" onchange="toggleAddon('${a.id}',${a.price})">
+      </label>
+    `).join('');
+    document.getElementById('section-addon').style.display='block';
+  } else {
+    document.getElementById('section-addon').style.display='none';
+  }
+
+  document.getElementById('modal-qty').textContent=1;
+  ImageSlots.init(document.getElementById('productModal'));
+  updateModalPrice();
+
+  // Reset accordion: CHỌN MÓN mở sẵn, THÊM MÓN đóng
+  document.getElementById('size-body').classList.add('show');
+  document.getElementById('addon-body').classList.remove('show');
+  document.querySelectorAll('#modalAccordion .accordion-button').forEach((btn,i)=>{
+    btn.classList.toggle('collapsed', i!==0);
+    btn.setAttribute('aria-expanded', i===0);
+  });
+
+  productModal.show();
+}
+
+function closeModal(){
+  productModal.hide();
+}
+
+// Đổi ảnh chính khi bấm vào ảnh thu nhỏ
+function pickThumb(btn, src){
+  document.querySelectorAll('.modal-thumb')
+          .forEach(t => t.classList.toggle('active', t === btn));
+
+  const wrap = document.getElementById('modal-img-wrap');
+  wrap.innerHTML = ImageSlots.html(
+    src, modalProduct ? modalProduct.name : '', '800×800',
+    modalProduct ? modalProduct.icon : '🖼');
+  ImageSlots.init(wrap);
+}
+
+// Chọn size
+function selectSize(sizeId){
+  selectedSize=sizeId;
+  document.querySelectorAll('.modal-option[id^="opt-"]').forEach(el=>{
+    el.classList.toggle('selected', el.id===`opt-${sizeId}`);
+    const radio=el.querySelector('input[type="radio"]');
+    if(radio)radio.checked=(el.id===`opt-${sizeId}`);
+  });
+  updateModalPrice();
+}
+
+// Chọn addon – đọc trạng thái checkbox do trình duyệt đã đổi sẵn
+// (không tự lật cb.checked, tránh bị đảo hai lần)
+function toggleAddon(addonId,price){
+  const el=document.getElementById(`addon-${addonId}`);
+  const cb=el?.querySelector('input[type="checkbox"]');
+  if(!el||!cb)return;
+  el.classList.toggle('selected',cb.checked);
+  selectedAddons=selectedAddons.filter(a=>a.id!==addonId);
+  if(cb.checked) selectedAddons.push({id:addonId,price});
+  updateModalPrice();
+}
+
+// Thay đổi số lượng
+function changeModalQty(delta){
+  modalQty=Math.max(1,modalQty+delta);
+  document.getElementById('modal-qty').textContent=modalQty;
+  updateModalPrice();
+}
+
+// Cập nhật giá hiển thị
+function updateModalPrice(){
+  if(!modalProduct)return;
+  const size=modalProduct.sizes.find(s=>s.id===selectedSize);
+  const sizeExtra=size?size.price:0;
+  const addonExtra=selectedAddons.reduce((s,a)=>s+a.price,0);
+  const unit=modalProduct.basePrice+sizeExtra+addonExtra;
+  const total=unit*modalQty;
+  document.getElementById('modal-total-price').innerHTML=
+    `${total.toLocaleString('vi-VN')} <span>đ</span>`;
+}
+
+// Thêm vào giỏ từ modal
+function addModalToCart(){
+  if(!modalProduct)return;
+  const size=modalProduct.sizes.find(s=>s.id===selectedSize);
+  const sizeExtra=size?size.price:0;
+  const addonExtra=selectedAddons.reduce((s,a)=>s+a.price,0);
+  const unit=modalProduct.basePrice+sizeExtra+addonExtra;
+
+  const sizeName=size?` – ${size.name}`:'';
+  const addonNames=selectedAddons.map(a=>{
+    const ad=modalProduct.addons.find(x=>x.id===a.id);
+    return ad?ad.name:'';
+  }).filter(Boolean);
+
+  const displayName=modalProduct.name+sizeName+(addonNames.length?` (${addonNames.join(', ')})` :'');
+
+  // Thêm modalQty lần
+  for(let i=0;i<modalQty;i++){
+    Cart.add({
+      id:`${modalProduct.id}-${selectedSize}-${selectedAddons.map(a=>a.id).join('-')||'none'}`,
+      name:displayName,
+      price:unit,
+      icon:modalProduct.icon,
+      img:`img/products/${modalProduct.id}.jpg`   // để giỏ hàng hiện ảnh
+    });
+  }
+
+  closeModal();
+}
+
+// ── Chuyển đổi Giao hàng / Đến lấy (giống trang chủ) ────────
+const addrInput = document.getElementById('addr-input');
+const addrNote  = document.getElementById('addr-note');
+
+document.querySelectorAll('.mode-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const isPickup = btn.dataset.mode === 'pickup';
+    addrInput.placeholder = isPickup
+      ? 'Tìm cửa hàng gần bạn nhất...'
+      : 'Nhập địa chỉ giao hàng của bạn...';
+    addrNote.textContent = isPickup
+      ? 'Đặt trước, đến lấy không cần chờ · Hơn 150 cửa hàng toàn quốc'
+      : 'Giao trong 20–30 phút · Miễn phí giao hàng cho đơn từ 150.000đ';
+
+    localStorage.setItem('jollibee_mode', btn.dataset.mode);
+  });
+});
+
+if (localStorage.getItem('jollibee_mode') === 'pickup') {
+  document.querySelector('.mode-btn[data-mode="pickup"]')?.click();
+}
+if (localStorage.getItem('jollibee_address')) {
+  addrInput.value = localStorage.getItem('jollibee_address');
+}
+
+function findStore(){
+  const v = addrInput.value.trim();
+  localStorage.setItem('jollibee_address', v);
+  Toast.show(v
+    ? `📍 Đã ghi nhận địa chỉ: ${v}`
+    : '📍 Vui lòng nhập địa chỉ để chúng tôi tìm cửa hàng gần nhất');
+}
+</script>
+</body>
+</html>
