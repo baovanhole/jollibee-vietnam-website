@@ -28,18 +28,13 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     THANH DANH MỤC DÍNH – dùng ẢNH món thật thay vì emoji
-     (DESIGN.md §6.2 – mẫu từ jollibee.com.vn: thanh danh mục
-      dính lại ở đỉnh khi cuộn, luôn đổi danh mục được)
-     ══════════════════════════════════════════════════════════ -->
+
 <div class="cat-rail" id="cat-tabs">
   <div class="container">
     <div class="cat-rail__inner">
 
       <button class="cat-btn active" data-cat="all">
         <span class="cat-thumb">
-          <!-- ẢNH: img/categories/all.jpg · 200×200 -->
           <span class="img-slot img-slot--xs">
             <img src="img/categories/all.jpg" alt="Tất cả món">
             <span class="img-slot__hint"><span class="ph-icon">🍽</span></span>
@@ -50,7 +45,6 @@
 
       <button class="cat-btn" data-cat="ga">
         <span class="cat-thumb">
-          <!-- ẢNH: img/categories/ga.jpg · 200×200 -->
           <span class="img-slot img-slot--xs">
             <img src="img/categories/ga.jpg" alt="Gà rán">
             <span class="img-slot__hint"><span class="ph-icon">🍗</span></span>
@@ -61,7 +55,6 @@
 
       <button class="cat-btn" data-cat="burger">
         <span class="cat-thumb">
-          <!-- ẢNH: img/categories/burger.jpg · 200×200 -->
           <span class="img-slot img-slot--xs">
             <img src="img/categories/burger.jpg" alt="Burger và cơm">
             <span class="img-slot__hint"><span class="ph-icon">🍔</span></span>
@@ -72,7 +65,6 @@
 
       <button class="cat-btn" data-cat="mi">
         <span class="cat-thumb">
-          <!-- ẢNH: img/categories/mi.jpg · 200×200 -->
           <span class="img-slot img-slot--xs">
             <img src="img/categories/mi.jpg" alt="Mì Ý">
             <span class="img-slot__hint"><span class="ph-icon">🍝</span></span>
@@ -83,7 +75,6 @@
 
       <button class="cat-btn" data-cat="trangmiem">
         <span class="cat-thumb">
-          <!-- ẢNH: img/categories/trangmiem.jpg · 200×200 -->
           <span class="img-slot img-slot--xs">
             <img src="img/categories/trangmiem.jpg" alt="Tráng miệng">
             <span class="img-slot__hint"><span class="ph-icon">🍦</span></span>
@@ -94,7 +85,6 @@
 
       <button class="cat-btn" data-cat="uong">
         <span class="cat-thumb">
-          <!-- ẢNH: img/categories/uong.jpg · 200×200 -->
           <span class="img-slot img-slot--xs">
             <img src="img/categories/uong.jpg" alt="Đồ uống">
             <span class="img-slot__hint"><span class="ph-icon">🥤</span></span>
@@ -107,9 +97,7 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     CHỌN HÌNH THỨC NHẬN HÀNG + ĐỊA CHỈ (DESIGN.md §1.2)
-     ══════════════════════════════════════════════════════════ -->
+
 <section class="order-bar">
   <div class="container">
     <div class="text-center mb-3">
@@ -169,9 +157,7 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════
-     MODAL CHỌN MÓN – Bootstrap Modal component (như hình jollibee.com.vn)
-     ══════════════════════════════════════════════════════════ -->
+
 <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg product-modal-dialog">
     <div class="modal-content product-modal">
@@ -182,26 +168,22 @@
       <div class="modal-body p-0">
         <div class="d-flex flex-column flex-md-row" style="min-height:420px;">
 
-          <!-- Cột trái: ảnh -->
           <div class="modal-left" style="min-width:240px;">
             <div class="position-relative" style="display:inline-block;">
-              <!-- Ảnh món ăn (placeholder gradient) -->
+      
               <div class="product-img-modal img-ph-ga" id="modal-img-wrap">
-                <!-- ẢNH: img/products/<mã món>.jpg · 800×800 (JS tự điền) -->
               </div>
-              <!-- Badge "Mới" / "Bán chạy" -->
+       
               <span class="badge modal-badge-new" id="modal-badge" style="display:none;">Mới</span>
             </div>
             <div class="modal-product-name" id="modal-name">TÊN MÓN</div>
 
-            <!-- Thư viện ảnh thu nhỏ (DESIGN.md §5.3 – mẫu jollibee.com.vn) -->
-            <div class="modal-thumbs" id="modal-thumbs"><!-- JS tự điền --></div>
+
+            <div class="modal-thumbs" id="modal-thumbs"></div>
           </div>
 
-          <!-- Cột phải: chọn options -->
           <div class="modal-right d-flex flex-column flex-grow-1">
 
-            <!-- Bootstrap Accordion: CHỌN SIZE / THÊM MÓN -->
             <div class="accordion" id="modalAccordion">
 
               <div class="accordion-item modal-section" id="section-size">
@@ -213,8 +195,8 @@
                 </h2>
                 <div id="size-body" class="accordion-collapse collapse show">
                   <div class="modal-section-body" id="size-body-content">
-                    <!-- Điền bởi JS -->
-                  </div>
+          
+                 </div>
                 </div>
               </div>
 
@@ -227,29 +209,29 @@
                 </h2>
                 <div id="addon-body" class="accordion-collapse collapse">
                   <div class="modal-section-body" id="addon-body-content">
-                    <!-- Điền bởi JS -->
+        
                   </div>
                 </div>
               </div>
 
             </div>
 
-            <!-- Spacer -->
+       
             <div class="flex-grow-1"></div>
 
-            <!-- Footer: số lượng + giá + nút thêm -->
+     
             <div class="modal-footer-bar">
-              <!-- Số lượng -->
+          
               <div class="qty-bar">
                 <button onclick="changeModalQty(-1)">−</button>
                 <div class="qty-display" id="modal-qty">1</div>
                 <button onclick="changeModalQty(+1)">+</button>
               </div>
-              <!-- Giá tổng -->
+           
               <div class="modal-price-display" id="modal-total-price">
                 0 <span>đ</span>
               </div>
-              <!-- Nút thêm vào giỏ -->
+            
               <button class="btn-add-to-cart-modal" onclick="addModalToCart()">
                 Thêm vào giỏ hàng
               </button>
@@ -468,9 +450,8 @@ const PRODUCTS = [
   },
 ];
 
-// ════════════════════════════════════════════════════════════
+
 // RENDER PRODUCT GRID
-// ════════════════════════════════════════════════════════════
 function renderProducts(list) {
   const grid = document.getElementById('product-grid');
   document.getElementById('result-count').textContent =
@@ -521,9 +502,8 @@ function renderProducts(list) {
   ImageSlots.init(grid);   // bật khung gợi ý cho ảnh vừa render
 }
 
-// ════════════════════════════════════════════════════════════
+
 // FILTER & SORT
-// ════════════════════════════════════════════════════════════
 let currentCat='all', currentSort='default', currentQ='';
 
 function applyFilter() {
@@ -564,9 +544,8 @@ if(urlP.get('cat')){const b=document.querySelector(`[data-cat="${urlP.get('cat')
 if(urlP.get('q')){currentQ=urlP.get('q');document.getElementById('search-input').value=currentQ;}
 applyFilter();
 
-// ════════════════════════════════════════════════════════════
+
 // MODAL CHỌN MÓN
-// ════════════════════════════════════════════════════════════
 let modalProduct = null;   // sản phẩm đang chọn
 let modalQty     = 1;
 let selectedSize = null;   // id size đang chọn
@@ -592,21 +571,7 @@ function openModal(productId) {
   imgWrap.innerHTML = ImageSlots.html(
     `img/products/${modalProduct.id}.jpg`, modalProduct.name, '800×800', modalProduct.icon);
 
-  // Thư viện ảnh thu nhỏ: ảnh chính + 2 góc chụp phụ
-  const thumbs = document.getElementById('modal-thumbs');
-  thumbs.innerHTML = ['', '-2', '-3'].map((suffix, i) => `
-    <button type="button" class="modal-thumb ${i === 0 ? 'active' : ''}"
-            onclick="pickThumb(this, 'img/products/${modalProduct.id}${suffix}.jpg')"
-            aria-label="Ảnh ${i + 1}">
-      ${ImageSlots.html(`img/products/${modalProduct.id}${suffix}.jpg`,
-                        modalProduct.name, '800×800', modalProduct.icon, 'img-slot--xs')}
-    </button>`).join('');
 
-  // Badge
-  const badgeEl = document.getElementById('modal-badge');
-  if(modalProduct.badge==='new'){badgeEl.textContent='Mới';badgeEl.style.display='inline-flex';}
-  else if(modalProduct.badge==='hot'){badgeEl.textContent='Hot';badgeEl.style.display='inline-flex';}
-  else badgeEl.style.display='none';
 
   // Tiêu đề accordion SIZE
   document.getElementById('modal-size-label').textContent =
@@ -750,7 +715,7 @@ function addModalToCart(){
   closeModal();
 }
 
-// ── Chuyển đổi Giao hàng / Đến lấy (giống trang chủ) ────────
+// ── Chuyển đổi Giao hàng / Đến lấy ────────
 const addrInput = document.getElementById('addr-input');
 const addrNote  = document.getElementById('addr-note');
 
