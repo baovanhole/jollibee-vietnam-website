@@ -571,7 +571,21 @@ function openModal(productId) {
   imgWrap.innerHTML = ImageSlots.html(
     `img/products/${modalProduct.id}.jpg`, modalProduct.name, '800×800', modalProduct.icon);
 
+  // Thư viện ảnh thu nhỏ: ảnh chính + 2 góc chụp phụ
+  const thumbs = document.getElementById('modal-thumbs');
+  thumbs.innerHTML = ['', '-2', '-3'].map((suffix, i) => `
+    <button type="button" class="modal-thumb ${i === 0 ? 'active' : ''}"
+            onclick="pickThumb(this, 'img/products/${modalProduct.id}${suffix}.jpg')"
+            aria-label="Ảnh ${i + 1}">
+      ${ImageSlots.html(`img/products/${modalProduct.id}${suffix}.jpg`,
+                        modalProduct.name, '800×800', modalProduct.icon, 'img-slot--xs')}
+    </button>`).join('');
 
+  // Badge
+  const badgeEl = document.getElementById('modal-badge');
+  if(modalProduct.badge==='new'){badgeEl.textContent='Mới';badgeEl.style.display='inline-flex';}
+  else if(modalProduct.badge==='hot'){badgeEl.textContent='Hot';badgeEl.style.display='inline-flex';}
+  else badgeEl.style.display='none';
 
   // Tiêu đề accordion SIZE
   document.getElementById('modal-size-label').textContent =
