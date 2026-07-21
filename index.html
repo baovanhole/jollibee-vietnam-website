@@ -5,26 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jollibee Vietnam – Trang Chủ</title>
 
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- CSS riêng -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<!-- Navbar (chèn qua components.js) -->
 <div id="navbar"></div>
 
-<!-- ══════════════════════════════════════════════════════════
-     HERO BANNER – Bootstrap Carousel component
-     (dựa theo wireframe: Rectangle 3 + text banner + 3 dots)
-     ══════════════════════════════════════════════════════════ -->
+
 <section class="hero">
   <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
 
-    <!-- Chỉ báo slide (thay cho .hero-dots tĩnh trước đây) -->
     <div class="carousel-indicators hero-dots">
       <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0"
               class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -36,7 +28,7 @@
 
     <div class="carousel-inner">
 
-      <!-- Slide 1: Gà rán -->
+
       <div class="carousel-item active">
         <div class="container">
           <div class="row align-items-center">
@@ -54,7 +46,6 @@
             </div>
             <div class="col-lg-6">
               <div class="hero-img-placeholder">
-                <!-- ẢNH: img/hero/hero-1.png · 900×700 · gà rán tách nền -->
                 <div class="img-slot">
                   <img src="img/hero/hero-1.png" alt="Combo Chickenjoy">
                   <span class="img-slot__hint"><span class="ph-icon">🍗</span>
@@ -66,7 +57,6 @@
         </div>
       </div>
 
-      <!-- Slide 2: Mì Ý sốt cay -->
       <div class="carousel-item">
         <div class="container">
           <div class="row align-items-center">
@@ -84,7 +74,6 @@
             </div>
             <div class="col-lg-6">
               <div class="hero-img-placeholder">
-                <!-- ẢNH: img/hero/hero-2.png · 900×700 · mì Ý tách nền -->
                 <div class="img-slot">
                   <img src="img/hero/hero-2.png" alt="Mì Ý sốt cay">
                   <span class="img-slot__hint"><span class="ph-icon">🍝</span>
@@ -96,7 +85,6 @@
         </div>
       </div>
 
-      <!-- Slide 3: Combo gia đình -->
       <div class="carousel-item">
         <div class="container">
           <div class="row align-items-center">
@@ -114,7 +102,6 @@
             </div>
             <div class="col-lg-6">
               <div class="hero-img-placeholder">
-                <!-- ẢNH: img/hero/hero-3.png · 900×700 · combo gia đình tách nền -->
                 <div class="img-slot">
                   <img src="img/hero/hero-3.png" alt="Combo gia đình 8 miếng">
                   <span class="img-slot__hint"><span class="ph-icon">🍱</span>
@@ -128,7 +115,7 @@
 
     </div>
 
-    <!-- Nút chuyển slide -->
+
     <button class="carousel-control-prev" type="button"
             data-bs-target="#heroCarousel" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -143,15 +130,10 @@
 </section>
 
 
-<!-- ══════════════════════════════════════════════════════════
-     CHỌN HÌNH THỨC NHẬN HÀNG + ĐỊA CHỈ
-     (DESIGN.md §1.2 – hỏi "giao hay lấy?" ngay từ trang chủ,
-      vì phí ship & món khả dụng phụ thuộc cửa hàng gần nhất)
-     ══════════════════════════════════════════════════════════ -->
 <section class="order-bar">
   <div class="container">
 
-    <!-- Cặp nút chuyển đổi -->
+
     <div class="text-center mb-3">
       <div class="mode-switch" role="group" aria-label="Hình thức nhận hàng">
         <button type="button" class="mode-btn active" data-mode="delivery">
@@ -163,7 +145,6 @@
       </div>
     </div>
 
-    <!-- Ô nhập địa chỉ / tìm cửa hàng -->
     <div class="address-bar">
       <div class="input-group">
         <label for="addr-input" class="visually-hidden">Địa chỉ giao hàng</label>
@@ -184,9 +165,6 @@
 </section>
 
 
-<!-- ══════════════════════════════════════════════════════════
-     TÌM MÓN
-     ══════════════════════════════════════════════════════════ -->
 <section style="background:white; padding:18px 0; border-bottom:1px solid var(--border);">
   <div class="container">
     <div class="row justify-content-center">
@@ -205,9 +183,7 @@
 </section>
 
 
-<!-- ══════════════════════════════════════════════════════════
-     DANH MỤC (dựa wireframe: 5 icon rectangle + label)
-     ══════════════════════════════════════════════════════════ -->
+
 <section class="section">
   <div class="container">
     <h2 class="section-title">Danh mục</h2>
@@ -218,7 +194,6 @@
         <a href="thucdon.html?cat=ga" class="text-decoration-none">
           <div class="cat-card active">
             <div class="cat-icon">
-              <!-- ẢNH: img/categories/ga.jpg · 400×400 · ảnh vuông món đại diện -->
               <div class="img-slot img-slot--sm">
                 <img src="img/categories/ga.jpg" alt="Gà rán">
                 <span class="img-slot__hint"><span class="ph-icon">🍗</span>
@@ -234,7 +209,6 @@
         <a href="thucdon.html?cat=burger" class="text-decoration-none">
           <div class="cat-card">
             <div class="cat-icon">
-              <!-- ẢNH: img/categories/burger.jpg · 400×400 · ảnh vuông món đại diện -->
               <div class="img-slot img-slot--sm">
                 <img src="img/categories/burger.jpg" alt="Burger">
                 <span class="img-slot__hint"><span class="ph-icon">🍔</span>
@@ -250,7 +224,6 @@
         <a href="thucdon.html?cat=mi" class="text-decoration-none">
           <div class="cat-card">
             <div class="cat-icon">
-              <!-- ẢNH: img/categories/mi.jpg · 400×400 · ảnh vuông món đại diện -->
               <div class="img-slot img-slot--sm">
                 <img src="img/categories/mi.jpg" alt="Mì Ý">
                 <span class="img-slot__hint"><span class="ph-icon">🍝</span>
@@ -266,7 +239,7 @@
         <a href="thucdon.html?cat=trangmiem" class="text-decoration-none">
           <div class="cat-card">
             <div class="cat-icon">
-              <!-- ẢNH: img/categories/trangmiem.jpg · 400×400 · ảnh vuông món đại diện -->
+
               <div class="img-slot img-slot--sm">
                 <img src="img/categories/trangmiem.jpg" alt="Tráng miệng">
                 <span class="img-slot__hint"><span class="ph-icon">🍦</span>
@@ -282,7 +255,7 @@
         <a href="thucdon.html?cat=uong" class="text-decoration-none">
           <div class="cat-card">
             <div class="cat-icon">
-              <!-- ẢNH: img/categories/uong.jpg · 400×400 · ảnh vuông món đại diện -->
+
               <div class="img-slot img-slot--sm">
                 <img src="img/categories/uong.jpg" alt="Đồ uống">
                 <span class="img-slot__hint"><span class="ph-icon">🥤</span>
@@ -299,9 +272,7 @@
 </section>
 
 
-<!-- ══════════════════════════════════════════════════════════
-     MÓN BÁN CHẠY (dựa wireframe: Group 1 + Rectangle 9 + price)
-     ══════════════════════════════════════════════════════════ -->
+
 <section class="section section-gray">
   <div class="container">
     <div class="section-heading">
@@ -311,11 +282,10 @@
 
     <div class="row g-3">
 
-      <!-- Sản phẩm 1 -->
+
       <div class="col-6 col-md-4 col-lg-3">
         <div class="product-card">
           <div class="product-img img-ph-ga">
-            <!-- ẢNH: img/products/combo-01.jpg · 800×800 -->
             <div class="img-slot">
               <img src="img/products/combo-01.jpg" alt="Combo Chickenjoy Đôi">
               <span class="img-slot__hint"><span class="ph-icon">🍗</span>
@@ -338,11 +308,10 @@
         </div>
       </div>
 
-      <!-- Sản phẩm 2 -->
       <div class="col-6 col-md-4 col-lg-3">
         <div class="product-card">
           <div class="product-img img-ph-mi">
-            <!-- ẢNH: img/products/mi-01.jpg · 800×800 -->
+  
             <div class="img-slot">
               <img src="img/products/mi-01.jpg" alt="Mì Ý Sốt Bò Bằm">
               <span class="img-slot__hint"><span class="ph-icon">🍝</span>
@@ -364,11 +333,11 @@
         </div>
       </div>
 
-      <!-- Sản phẩm 3 -->
+ 
       <div class="col-6 col-md-4 col-lg-3">
         <div class="product-card">
           <div class="product-img img-ph-burger">
-            <!-- ẢNH: img/products/burger-01.jpg · 800×800 -->
+      
             <div class="img-slot">
               <img src="img/products/burger-01.jpg" alt="Yumburger Classic">
               <span class="img-slot__hint"><span class="ph-icon">🍔</span>
@@ -390,11 +359,11 @@
         </div>
       </div>
 
-      <!-- Sản phẩm 4 -->
+
       <div class="col-6 col-md-4 col-lg-3">
         <div class="product-card">
           <div class="product-img img-ph-trangmiem">
-            <!-- ẢNH: img/products/tm-01.jpg · 800×800 -->
+     
             <div class="img-slot">
               <img src="img/products/tm-01.jpg" alt="Halo-Halo Tráng Miệng">
               <span class="img-slot__hint"><span class="ph-icon">🍦</span>
@@ -421,16 +390,12 @@
 </section>
 
 
-<!-- ══════════════════════════════════════════════════════════
-     DẢI ẢNH TRÀN VIỀN "ĂN GÌ HÔM NAY"
-     (DESIGN.md §4.1 – ảnh chạm sát mép màn hình, không gutter,
-      khối đỏ đặc bên trái chứa tiêu đề. Mẫu từ jollibee.com.vn)
-     ══════════════════════════════════════════════════════════ -->
+
 <section class="showcase">
   <div class="container-fluid px-0">
     <div class="row g-0">
 
-      <!-- Khối tiêu đề đỏ -->
+    
       <div class="col-lg-3">
         <div class="showcase-panel">
           <h2>Ăn Gì<br>Hôm Nay?</h2>
@@ -439,13 +404,13 @@
         </div>
       </div>
 
-      <!-- 4 ảnh danh mục tràn viền -->
+    
       <div class="col-lg-9">
         <div class="row g-0">
 
           <div class="col-6 col-md-3">
             <a href="thucdon.html?cat=ga" class="showcase-tile">
-              <!-- ẢNH: img/categories/showcase-ga.jpg · 600×800 (dọc 3:4) -->
+           
               <div class="img-slot">
                 <img src="img/categories/showcase-ga.jpg" alt="Gà giòn vui vẻ">
                 <span class="img-slot__hint"><span class="ph-icon">🍗</span>
@@ -457,7 +422,7 @@
 
           <div class="col-6 col-md-3">
             <a href="thucdon.html?cat=ga" class="showcase-tile">
-              <!-- ẢNH: img/categories/showcase-gasotcay.jpg · 600×800 -->
+          
               <div class="img-slot">
                 <img src="img/categories/showcase-gasotcay.jpg" alt="Gà sốt cay">
                 <span class="img-slot__hint"><span class="ph-icon">🌶️</span>
@@ -469,7 +434,7 @@
 
           <div class="col-6 col-md-3">
             <a href="thucdon.html?cat=mi" class="showcase-tile">
-              <!-- ẢNH: img/categories/showcase-mi.jpg · 600×800 -->
+       
               <div class="img-slot">
                 <img src="img/categories/showcase-mi.jpg" alt="Mì Ý sốt bò bằm">
                 <span class="img-slot__hint"><span class="ph-icon">🍝</span>
@@ -481,7 +446,7 @@
 
           <div class="col-6 col-md-3">
             <a href="thucdon.html?cat=trangmiem" class="showcase-tile">
-              <!-- ẢNH: img/categories/showcase-trangmiem.jpg · 600×800 -->
+            
               <div class="img-slot">
                 <img src="img/categories/showcase-trangmiem.jpg" alt="Món tráng miệng">
                 <span class="img-slot__hint"><span class="ph-icon">🍦</span>
@@ -498,9 +463,7 @@
 </section>
 
 
-<!-- ══════════════════════════════════════════════════════════
-     BANNER KHUYẾN MÃI
-     ══════════════════════════════════════════════════════════ -->
+
 <section class="section section-red">
   <div class="container text-center">
     <h2 style="font-size:2rem; font-weight:900; color:var(--yellow);">
@@ -517,9 +480,7 @@
 </section>
 
 
-<!-- ══════════════════════════════════════════════════════════
-     DỊCH VỤ
-     ══════════════════════════════════════════════════════════ -->
+
 <section class="section section-pattern">
   <div class="container">
     <h2 class="section-title text-center mx-auto" style="max-width:300px;">Dịch vụ của chúng tôi</h2>
@@ -568,7 +529,7 @@
 <div id="footer"></div>
 
 
-<!-- ── SCRIPTS ──────────────────────────────────────────── -->
+<!-- ── SCRIPTS-->
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Components (navbar + footer) -->
@@ -590,7 +551,7 @@
     if (e.key === 'Enter') searchMenu();
   });
 
-  // ── Chuyển đổi Giao hàng / Đến lấy ────────────────────────
+  // Chuyển đổi Giao hàng / Đến lấy
   const addrInput = document.getElementById('addr-input');
   const addrNote  = document.getElementById('addr-note');
 
